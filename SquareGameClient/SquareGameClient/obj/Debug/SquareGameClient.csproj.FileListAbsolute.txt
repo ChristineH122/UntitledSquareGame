@@ -1,0 +1,15 @@
+C:\Users\Christian\Desktop\FHWN\FifthSemester\DistributedSystems\UntitledSquareGame\SquareGameClient\SquareGameClient\bin\Debug\SquareGameClient.exe.config
+C:\Users\Christian\Desktop\FHWN\FifthSemester\DistributedSystems\UntitledSquareGame\SquareGameClient\SquareGameClient\bin\Debug\SquareGameClient.exe
+C:\Users\Christian\Desktop\FHWN\FifthSemester\DistributedSystems\UntitledSquareGame\SquareGameClient\SquareGameClient\bin\Debug\SquareGameClient.pdb
+C:\Users\Christian\Desktop\FHWN\FifthSemester\DistributedSystems\UntitledSquareGame\SquareGameClient\SquareGameClient\obj\Debug\SquareGameClient.csprojAssemblyReference.cache
+C:\Users\Christian\Desktop\FHWN\FifthSemester\DistributedSystems\UntitledSquareGame\SquareGameClient\SquareGameClient\obj\Debug\MainWindow.g.cs
+C:\Users\Christian\Desktop\FHWN\FifthSemester\DistributedSystems\UntitledSquareGame\SquareGameClient\SquareGameClient\obj\Debug\App.g.cs
+C:\Users\Christian\Desktop\FHWN\FifthSemester\DistributedSystems\UntitledSquareGame\SquareGameClient\SquareGameClient\obj\Debug\SquareGameClient_MarkupCompile.cache
+C:\Users\Christian\Desktop\FHWN\FifthSemester\DistributedSystems\UntitledSquareGame\SquareGameClient\SquareGameClient\obj\Debug\SquareGameClient_MarkupCompile.lref
+C:\Users\Christian\Desktop\FHWN\FifthSemester\DistributedSystems\UntitledSquareGame\SquareGameClient\SquareGameClient\obj\Debug\MainWindow.baml
+C:\Users\Christian\Desktop\FHWN\FifthSemester\DistributedSystems\UntitledSquareGame\SquareGameClient\SquareGameClient\obj\Debug\SquareGameClient.g.resources
+C:\Users\Christian\Desktop\FHWN\FifthSemester\DistributedSystems\UntitledSquareGame\SquareGameClient\SquareGameClient\obj\Debug\SquareGameClient.Properties.Resources.resources
+C:\Users\Christian\Desktop\FHWN\FifthSemester\DistributedSystems\UntitledSquareGame\SquareGameClient\SquareGameClient\obj\Debug\SquareGameClient.csproj.GenerateResource.cache
+C:\Users\Christian\Desktop\FHWN\FifthSemester\DistributedSystems\UntitledSquareGame\SquareGameClient\SquareGameClient\obj\Debug\SquareGameClient.csproj.CoreCompileInputs.cache
+C:\Users\Christian\Desktop\FHWN\FifthSemester\DistributedSystems\UntitledSquareGame\SquareGameClient\SquareGameClient\obj\Debug\SquareGameClient.exe
+C:\Users\Christian\Desktop\FHWN\FifthSemester\DistributedSystems\UntitledSquareGame\SquareGameClient\SquareGameClient\obj\Debug\SquareGameClient.pdb

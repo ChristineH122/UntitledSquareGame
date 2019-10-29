@@ -13,7 +13,12 @@ namespace SquareGameClient.ViewModel
 
         public Game()
         {
-            this.connectionHandler = new ConnectionHandler();
+            this.connectionHandler = new ConnectionHandler("10.13.200.184", 5050);
+        }
+
+        public void Send()
+        {
+            this.connectionHandler.Start();
         }
     }
 }

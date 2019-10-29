@@ -15,13 +15,18 @@ namespace SquareGameClient.Model
 
         public ConnectionHandler(string ipAddress, int port)
         {
-            this.client = new TcpClient();
             this.endpoint = new IPEndPoint(IPAddress.Parse(ipAddress), port);
+            this.client = new TcpClient();
         }
 
         public void Start()
         {
             this.client.Connect(this.endpoint);
+            var stream = client.GetStream();
+            var message = Encoding.Default.GetBytes("Test");
+            stream.Write(message, 0, message.Length);
+            stream.Flush();
+            stream.Close();
         }
     }
 }

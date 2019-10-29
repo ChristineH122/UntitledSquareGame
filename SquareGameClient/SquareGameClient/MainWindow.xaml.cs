@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SquareGameClient.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,16 +21,19 @@ namespace SquareGameClient
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Game game;
+
         public MainWindow()
         {
             InitializeComponent();
+            this.game = new Game();
         }
 
-        private void KeyDown(object sender, KeyEventArgs e)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Up)
             {
-
+                this.game.Send();
             }
         }
     }
