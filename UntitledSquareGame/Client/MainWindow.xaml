@@ -6,14 +6,9 @@
         xmlns:local="clr-namespace:Client"
         xmlns:viewModel="clr-namespace:Client.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Window.DataContext>
-        <viewModel:Game />
-    </Window.DataContext>
-    <Grid>
-        
-    </Grid>
-    <Window.InputBindings>
-        <KeyBinding Command="{Binding MoveUpCommand}" Key="Up" />
-    </Window.InputBindings>
+        Title="MainWindow" Height="700" Width="1100"
+        FocusManager.FocusedElement="{Binding ElementName=MyCanvas}">
+    <Canvas Name="MyCanvas" KeyDown="Canvas_KeyDown" KeyUp="MyCanvas_KeyUp" Focusable="True">
+        <Rectangle Fill="Red" Canvas.Left="{Binding Game.Square.X}" Canvas.Top="{Binding Game.Square.Y}" Width="{Binding Game.Square.Width}" Height="{Binding Game.Square.Height}" />
+    </Canvas>
 </Window>

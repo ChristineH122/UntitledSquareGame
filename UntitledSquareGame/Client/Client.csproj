@@ -56,7 +56,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\Command.cs" />
-    <Compile Include="ViewModel\Game.cs" />
+    <Compile Include="Enums\Direction.cs" />
+    <Compile Include="Model\Square.cs" />
+    <Compile Include="ViewModel\GameVM.cs" />
+    <Compile Include="ViewModel\SquareVM.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

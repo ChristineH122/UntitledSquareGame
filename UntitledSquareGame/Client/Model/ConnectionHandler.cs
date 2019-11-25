@@ -17,16 +17,16 @@ namespace Client.Model
         {
             this.endpoint = new IPEndPoint(IPAddress.Parse(ipAddress), port);
             this.client = new TcpClient();
+            this.client.Connect(this.endpoint);
         }
 
         public void Start()
         {
-            this.client.Connect(this.endpoint);
             var stream = client.GetStream();
             var message = Encoding.Default.GetBytes("Test");
             stream.Write(message, 0, message.Length);
             stream.Flush();
-            stream.Close();
+            // stream.Close();
         }
     }
 }
