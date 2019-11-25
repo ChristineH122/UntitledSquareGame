@@ -69,7 +69,7 @@ namespace Client
 
             if (e.Key == Key.D)
             {
-                this.game.ChangeDirection(Direction.Right);
+                this.game.ChangeDirection(Direction.Right); 
             }
         }
 
