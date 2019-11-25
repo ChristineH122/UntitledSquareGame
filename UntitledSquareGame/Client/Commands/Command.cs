@@ -10,6 +10,7 @@ namespace Client.Commands
     public class Command : ICommand
     {
         private Action<object> action;
+
         public event EventHandler CanExecuteChanged;
 
         public Command(Action<object> action)
