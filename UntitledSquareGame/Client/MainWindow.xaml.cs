@@ -77,7 +77,7 @@ namespace Client
         {
             if (e.Key == Key.W)
             {
-                this.game.ReleaseDirection(Direction.Up);
+                this.game.ReleaseDirection(Direction.Up); 
             }
 
             if (e.Key == Key.S)
