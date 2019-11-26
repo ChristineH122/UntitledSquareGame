@@ -21,11 +21,6 @@ namespace Server.Model
             this.Square = new Square(500, 250, 40, 40);
         }
 
-        public int Id
-        {
-            get;
-        }
-
         public Square Square
         {
             get;

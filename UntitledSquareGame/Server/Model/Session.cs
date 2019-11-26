@@ -1,8 +1,10 @@
 ﻿using SquareGameObjects;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,15 +14,15 @@ namespace Server.Model
     {
         public Session(User firstUser)
         {
-            this.Game = new Game();
+            this.Game = new Game(this.SendGameStateToClients);
             
-            this.FirstPlayer = firstUser;
+            this.FirstUser = firstUser;
 
             var task = Task.Factory.StartNew(this.ListenFirstPlayerCommand);
             this.Game.Start();
         }
 
-        public User FirstPlayer
+        public User FirstUser
         {
             get;
         }
@@ -32,13 +34,13 @@ namespace Server.Model
 
         public void ListenFirstPlayerCommand()
         {
-            var stream = this.FirstPlayer.Client.GetStream();
+            var stream = this.FirstUser.Client.GetStream();
 
             while (true)
             {
                 var buffer = new byte[1024];
-                stream.Read(buffer, 0, buffer.Length);
-                var message = Encoding.ASCII.GetString(buffer);
+                var bytes = stream.Read(buffer, 0, buffer.Length);
+                var message = Encoding.ASCII.GetString(buffer, 0, bytes);
                 this.HandlePlayerCommnad(this.Game.FirstPlayer, message);
             }
         }
@@ -74,6 +76,29 @@ namespace Server.Model
             {
 
             }
+        }
+
+        public void SendGameStateToClients(GameState state)
+        {
+            var data = this.SerializeGameStateToByteArray(state);
+            var firstUserStream = this.FirstUser.Client.GetStream();
+            // todo second user stream ...
+
+            firstUserStream.Write(data, 0, data.Length);
+            firstUserStream.Flush();
+        }
+
+        private byte[] SerializeGameStateToByteArray(GameState gameState)
+        {
+            var formatter = new BinaryFormatter();
+            byte[] data;
+            using (var ms = new MemoryStream())
+            {
+                formatter.Serialize(ms, gameState);
+                data = ms.ToArray();
+            }
+
+            return data;
         }
     }
 }

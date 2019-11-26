@@ -58,6 +58,7 @@
     </ApplicationDefinition>
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Enums\Direction.cs" />
+    <Compile Include="EventArguments\GameStateReceivedEventArgs.cs" />
     <Compile Include="Model\Square.cs" />
     <Compile Include="ViewModel\GameVM.cs" />
     <Compile Include="ViewModel\SquareVM.cs" />
@@ -101,6 +102,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SquareGameObjects\SquareGameObjects.csproj">
+      <Project>{a1c4530b-100f-44ff-827b-788eb360220e}</Project>
+      <Name>SquareGameObjects</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

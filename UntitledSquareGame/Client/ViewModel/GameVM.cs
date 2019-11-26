@@ -3,12 +3,15 @@ using Client.Enums;
 using Client.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Client.ViewModel
 {
-    public class GameVM
+    public class GameVM : INotifyPropertyChanged
+
     {
         private const double MOVEMENT_SPEED = 3; 
 
@@ -17,12 +20,23 @@ namespace Client.ViewModel
         private bool moveLeft;
         private bool moveRight;
         private ConnectionHandler connectionHandler;
+        private SquareVM square;
 
         public GameVM()
         {
             this.ConHandler = new ConnectionHandler("192.168.174.113", 5050);
+            this.ConHandler.StartListeningForGameStateAsync();
+            this.ConHandler.GameStateReceived += ConHandler_GameStateReceived;
             this.Square = new SquareVM(new Square(500, 250, 40, 40));
             //this.connectionHandler = new ConnectionHandler("192.168.178.20", 5050);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void ConHandler_GameStateReceived(object sender, EventArguments.GameStateReceivedEventArgs e)
+        {
+            this.Square.X = e.GameState.PlayerOne.X;
+            this.Square.Y = e.GameState.PlayerOne.Y;
         }
 
         public ConnectionHandler ConHandler
@@ -32,7 +46,16 @@ namespace Client.ViewModel
 
         public SquareVM Square
         {
-            get; set;
+            get
+            {
+                return this.square;
+            }
+
+            private set
+            {
+                this.square = value;
+                this.FireOnPropertyChanged();
+            }
         }
 
         public void ChangeDirection(Direction direction)
@@ -40,20 +63,19 @@ namespace Client.ViewModel
             switch (direction)
             {
                 case Direction.Up:
-                    //this.moveUp = true;
                     this.ConHandler.MoveUp();
                     break;
 
                 case Direction.Down:
-                    this.moveDown = true;
+                    this.ConHandler.MoveDown();
                     break;
 
                 case Direction.Left:
-                    this.moveLeft = true;
+                    this.ConHandler.MoveLeft();
                     break;
 
                 case Direction.Right:
-                    this.moveRight = true;
+                    this.ConHandler.MoveRight();
                     break;
             }
         }
@@ -63,19 +85,19 @@ namespace Client.ViewModel
             switch (direction)
             {
                 case Direction.Up:
-                    this.moveUp = false;
+                    this.ConHandler.MoveUp();
                     break;
 
                 case Direction.Down:
-                    this.moveDown = false;
+                    this.ConHandler.MoveDown();
                     break;
 
                 case Direction.Left:
-                    this.moveLeft = false;
+                    this.ConHandler.MoveLeft();
                     break;
 
                 case Direction.Right:
-                    this.moveRight = false;
+                    this.ConHandler.MoveRight();
                     break;
             }
         }
@@ -101,6 +123,11 @@ namespace Client.ViewModel
             {
                 this.Square.X += MOVEMENT_SPEED;
             }
+        }
+
+        protected virtual void FireOnPropertyChanged([CallerMemberName] string name = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }
