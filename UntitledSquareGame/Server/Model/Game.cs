@@ -51,6 +51,12 @@ namespace Server.Model
             return new GameState { PlayerOne = this.FirstPlayer.Square };
         }
 
+        private void Render()
+        {
+            this.MovePlayers();
+            this.MoveEnemies();
+        }
+
         private void MoveEnemies()
         {
 
