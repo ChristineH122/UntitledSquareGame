@@ -20,8 +20,14 @@ namespace Client.ViewModel
 
         public GameVM()
         {
+            this.ConHandler = new ConnectionHandler("192.168.174.113", 5050);
             this.Square = new SquareVM(new Square(500, 250, 40, 40));
             //this.connectionHandler = new ConnectionHandler("192.168.178.20", 5050);
+        }
+
+        public ConnectionHandler ConHandler
+        {
+            get;
         }
 
         public SquareVM Square
@@ -34,7 +40,8 @@ namespace Client.ViewModel
             switch (direction)
             {
                 case Direction.Up:
-                    this.moveUp = true;
+                    //this.moveUp = true;
+                    this.ConHandler.MoveUp();
                     break;
 
                 case Direction.Down:

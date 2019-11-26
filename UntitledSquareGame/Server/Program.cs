@@ -5,24 +5,33 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
+using Server.Model;
 
 namespace Server
 {
-    class Program
+    public class Program
     {
+        public static List<User> Users;
+
         static void Main(string[] args)
+        {
+            Users = new List<User>();
+            var game = new Game();
+            ListenForUsers();
+        }
+
+        public static void ListenForUsers()
         {
             var listener = new TcpListener(new IPEndPoint(IPAddress.Any, 5050));
             listener.Start();
-            var client = listener.AcceptTcpClient();
 
-            var buffer = new byte[1024];
-            var stream = client.GetStream();
-            stream.Read(buffer, 0, 1024);
-
-            var message = Encoding.ASCII.GetString(buffer);
-            Console.WriteLine(message);
-            Console.ReadKey();
+            while (true)
+            {
+                var client = listener.AcceptTcpClient();
+                var user = new User(client);
+                Users.Add(user);
+                var session = new Session(user);
+            }
         }
     }
 }
