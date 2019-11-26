@@ -39,12 +39,17 @@ namespace Server.Model
         {
             while (true)
             {
-                this.MovePlayers();
-                this.MoveEnemies();
+                this.Render();
 
                 this.updatedStateAction?.Invoke(this.BuildGameState());
-                Thread.Sleep(100);
+                Thread.Sleep(33);
             }
+        }
+
+        private void Render()
+        {
+            this.MovePlayers();
+            this.MoveEnemies();
         }
 
         private GameState BuildGameState()

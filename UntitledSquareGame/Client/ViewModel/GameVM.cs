@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -24,7 +25,7 @@ namespace Client.ViewModel
 
         public GameVM()
         {
-            this.ConHandler = new ConnectionHandler("192.168.174.113", 5050);
+            this.ConHandler = new ConnectionHandler("127.0.0.1", 5050);
             this.ConHandler.StartListeningForGameStateAsync();
             this.ConHandler.GameStateReceived += ConHandler_GameStateReceived;
             this.Square = new SquareVM(new Square(500, 250, 40, 40));
