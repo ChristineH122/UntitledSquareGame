@@ -24,7 +24,7 @@ namespace Client.ViewModel
 
         public GameVM()
         {
-            this.ConHandler = new ConnectionHandler("192.168.174.113", 5050);
+            this.ConHandler = new ConnectionHandler("192.168.178.20", 5050);
             this.ConHandler.StartListeningForGameStateAsync();
             this.ConHandler.GameStateReceived += ConHandler_GameStateReceived;
             this.Square = new SquareVM(new Square(500, 250, 40, 40));

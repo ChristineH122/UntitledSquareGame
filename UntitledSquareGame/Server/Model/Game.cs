@@ -43,7 +43,7 @@ namespace Server.Model
                 this.MoveEnemies();
 
                 this.updatedStateAction?.Invoke(this.BuildGameState());
-                Thread.Sleep(100);
+                Thread.Sleep(10);
             }
         }
 

@@ -40,7 +40,7 @@ namespace Server.Model
                     this.moveLeft = !this.moveLeft;
                     break;
                 case Direction.Right:
-                    this.moveRight = !this.moveLeft;
+                    this.moveRight = !this.moveRight;
                     break;
                 case Direction.None:
                     break;
