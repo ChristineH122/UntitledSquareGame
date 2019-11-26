@@ -42,14 +42,8 @@ namespace Server.Model
                 this.Render();
 
                 this.updatedStateAction?.Invoke(this.BuildGameState());
-                Thread.Sleep(33);
+                Thread.Sleep(10);
             }
-        }
-
-        private void Render()
-        {
-            this.MovePlayers();
-            this.MoveEnemies();
         }
 
         private GameState BuildGameState()
