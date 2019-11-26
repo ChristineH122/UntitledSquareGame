@@ -52,6 +52,9 @@ namespace Client
 
         private void Canvas_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.IsRepeat)
+                return;
+
             if (e.Key == Key.W)
             {
                 this.game.ChangeDirection(Direction.Up);
