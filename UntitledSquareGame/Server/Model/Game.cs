@@ -21,12 +21,14 @@ namespace Server.Model
         {
             this.FirstPlayer = new Player();
             this.SecondPlayer = new Player();
+            this.Searchers = new List<Searcher>();
         }
 
         public Game(Action<GameState> updatedStateAction)
         {
             this.FirstPlayer = new Player();
             this.SecondPlayer = new Player();
+            this.Searchers = new List<Searcher>();
             this.updatedStateAction = updatedStateAction ?? throw new ArgumentNullException(nameof(updatedStateAction));
         }
 
@@ -40,8 +42,15 @@ namespace Server.Model
             get;
         }
 
+        public List<Searcher> Searchers
+        {
+            get;
+        }
+
         public void Start()
         {
+            this.Searchers.Add(new Searcher(this.FirstPlayer, 20, 20));
+
             while (true)
             {
                 this.Render();
@@ -54,7 +63,10 @@ namespace Server.Model
 
         private GameState BuildGameState()
         {
-            return new GameState { PlayerOne = this.FirstPlayer.Square, PlayerTwo = this.SecondPlayer.Square };
+            return new GameState {
+                PlayerOne = this.FirstPlayer.Square,
+                PlayerTwo = this.SecondPlayer.Square,
+                Searchers = this.Searchers.Select(s => s.Square).ToList() };
         }
 
         private void Render()
@@ -70,7 +82,10 @@ namespace Server.Model
 
         private void MoveEnemies()
         {
-
+            foreach (var searcher in this.Searchers)
+            {
+                searcher.Move(BORDER_X, BORDER_Y, BORDER_WIDTH, BORDER_HEIGHT);
+            }
         }
 
         private void MovePlayers()

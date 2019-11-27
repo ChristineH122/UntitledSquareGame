@@ -12,6 +12,16 @@ namespace Server.Model
 {
     public class Session
     {
+        public Session(User firstUser)
+        {
+            this.Game = new Game(this.SendGameStateToClients);
+
+            this.FirstUser = firstUser;
+
+            var task = Task.Factory.StartNew(this.ListenFirstPlayerCommand);
+            this.Game.Start();
+        }
+
         public Session(User firstUser, User secondUser)
         {
             this.Game = new Game(this.SendGameStateToClients);
@@ -102,12 +112,12 @@ namespace Server.Model
         {
             var data = this.SerializeGameStateToByteArray(state);
             var firstUserStream = this.FirstUser.Client.GetStream();
-            var secondUserStream = this.SecondUser.Client.GetStream();
+            //var secondUserStream = this.SecondUser.Client.GetStream();
         
             firstUserStream.Write(data, 0, data.Length);
-            secondUserStream.Write(data, 0, data.Length);
+            //secondUserStream.Write(data, 0, data.Length);
             firstUserStream.Flush();
-            secondUserStream.Flush();
+            //secondUserStream.Flush();
         }
 
         private byte[] SerializeGameStateToByteArray(GameState gameState)

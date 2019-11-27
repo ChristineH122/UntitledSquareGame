@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Model\Game.cs" />
     <Compile Include="Model\Player.cs" />
+    <Compile Include="Model\Searcher.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Program.cs" />

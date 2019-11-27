@@ -1,4 +1,5 @@
 ﻿using Client.Model;
+using SquareGameObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

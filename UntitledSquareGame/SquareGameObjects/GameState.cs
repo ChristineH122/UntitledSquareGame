@@ -20,5 +20,11 @@ namespace SquareGameObjects
             get;
             set;
         }
+
+        public List<Square> Searchers
+        {
+            get;
+            set;
+        }
     }
 }

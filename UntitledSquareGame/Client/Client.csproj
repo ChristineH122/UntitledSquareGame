@@ -57,9 +57,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\Command.cs" />
-    <Compile Include="Enums\Direction.cs" />
     <Compile Include="EventArguments\GameStateReceivedEventArgs.cs" />
-    <Compile Include="Model\Square.cs" />
     <Compile Include="ViewModel\GameVM.cs" />
     <Compile Include="ViewModel\SquareVM.cs" />
     <Page Include="MainWindow.xaml">
@@ -107,6 +105,9 @@
       <Project>{a1c4530b-100f-44ff-827b-788eb360220e}</Project>
       <Name>SquareGameObjects</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Enums\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

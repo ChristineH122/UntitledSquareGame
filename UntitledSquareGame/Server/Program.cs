@@ -30,9 +30,9 @@ namespace Server
                 var client = listener.AcceptTcpClient();
                 var user = new User(client);
                 Users.Add(user);
-                var secondClient = listener.AcceptTcpClient();
-                var user2 = new User(secondClient);
-                var session = new Session(user, user2);
+                //var secondClient = listener.AcceptTcpClient();
+                //var user2 = new User(secondClient);
+                var session = new Session(user);
             }
         }
     }

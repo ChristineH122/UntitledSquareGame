@@ -1,8 +1,9 @@
 ﻿using Client.Commands;
-using Client.Enums;
 using Client.Model;
+using SquareGameObjects;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Net;
@@ -23,9 +24,11 @@ namespace Client.ViewModel
         private ConnectionHandler connectionHandler;
         private SquareVM square;
         private SquareVM secondPlayerSquare;
+        private ObservableCollection<Square> searchers;
 
         public GameVM()
         {
+            this.Searchers = new ObservableCollection<Square>();
             this.ConHandler = new ConnectionHandler("127.0.0.1", 5050);
             this.ConHandler.StartListeningForGameStateAsync();
             this.ConHandler.GameStateReceived += ConHandler_GameStateReceived;
@@ -35,14 +38,6 @@ namespace Client.ViewModel
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private void ConHandler_GameStateReceived(object sender, EventArguments.GameStateReceivedEventArgs e)
-        {
-            this.Square.X = e.GameState.PlayerOne.X;
-            this.Square.Y = e.GameState.PlayerOne.Y;
-            this.SecondPlayerSquare.X = e.GameState.PlayerTwo.X;
-            this.SecondPlayerSquare.Y = e.GameState.PlayerTwo.Y;
-        }
 
         public ConnectionHandler ConHandler
         {
@@ -74,6 +69,20 @@ namespace Client.ViewModel
             {
                 this.secondPlayerSquare = value;
                 //this.FireOnPropertyChanged();
+            }
+        }
+        
+        public ObservableCollection<Square> Searchers
+        {
+            get
+            {
+                return this.searchers;
+            }
+
+            set
+            {
+                this.searchers = value;
+                this.FireOnPropertyChanged();
             }
         }
 
@@ -147,6 +156,15 @@ namespace Client.ViewModel
         protected virtual void FireOnPropertyChanged([CallerMemberName] string name = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        private void ConHandler_GameStateReceived(object sender, EventArguments.GameStateReceivedEventArgs e)
+        {
+            this.Square.X = e.GameState.PlayerOne.X;
+            this.Square.Y = e.GameState.PlayerOne.Y;
+            this.SecondPlayerSquare.X = e.GameState.PlayerTwo.X;
+            this.SecondPlayerSquare.Y = e.GameState.PlayerTwo.Y;
+            this.Searchers = new ObservableCollection<Square>(e.GameState.Searchers);
         }
     }
 }
