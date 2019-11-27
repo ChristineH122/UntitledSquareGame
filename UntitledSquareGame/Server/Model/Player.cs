@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server.Model
 {
-    public class Player
+    public class Player : ICollidable
     {
         private const double MOVEMENT_SPEED = 3;
 
@@ -19,7 +19,10 @@ namespace Server.Model
         public Player()
         {
             this.Square = new Square(500, 250, 40, 40);
+            this.Lives = 3;
         }
+
+        public int Lives { get; set; }
 
         public Square Square
         {
@@ -93,6 +96,27 @@ namespace Server.Model
             {
                 this.Square.Y = newPosition.Item2;
             }
+        }
+
+        public bool CollidesWith(IGameObject gameObject)
+        {
+            var firstPosA = new Tuple<double, double>(this.Square.X, this.Square.Y);
+            var firstPosB = new Tuple<double, double>(this.Square.X + this.Square.Width, this.Square.Y + this.Square.Height);
+
+            var secondPosA = new Tuple<double, double>(gameObject.Square.X, gameObject.Square.Y);
+            var secondPosB = new Tuple<double, double>(gameObject.Square.X + gameObject.Square.Width, gameObject.Square.Y + gameObject.Square.Height);
+
+            if (firstPosA.Item1 > secondPosB.Item1 || firstPosB.Item1 < secondPosA.Item1)
+            {
+                return false;
+            }
+
+            if (firstPosA.Item2 > secondPosB.Item2 || firstPosB.Item2 < secondPosA.Item2)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

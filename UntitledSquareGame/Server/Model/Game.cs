@@ -45,6 +45,7 @@ namespace Server.Model
         public List<Searcher> Searchers
         {
             get;
+            set;
         }
 
         public void Start()
@@ -54,7 +55,7 @@ namespace Server.Model
             while (true)
             {
                 this.Render();
-                this.CheckCollisions();
+                this.ResolveCollisions();
 
                 this.updatedStateAction?.Invoke(this.BuildGameState());
                 Thread.Sleep(10);
@@ -65,8 +66,11 @@ namespace Server.Model
         {
             return new GameState {
                 PlayerOne = this.FirstPlayer.Square,
+                PlayerOneLives = this.FirstPlayer.Lives,
                 PlayerTwo = this.SecondPlayer.Square,
-                Searchers = this.Searchers.Select(s => s.Square).ToList() };
+                PlayerTwoLives = this.SecondPlayer.Lives,
+                Searchers = this.Searchers.Select(s => s.Square).ToList(),
+                };
         }
 
         private void Render()
@@ -75,9 +79,23 @@ namespace Server.Model
             this.MoveEnemies();
         }
 
-        private bool CheckCollisions()
+        private void ResolveCollisions()
         {
-            return true;
+            var newSearcherList = new List<Searcher>();
+
+            foreach (var searcher in this.Searchers)
+            {
+                if (this.FirstPlayer.CollidesWith(searcher))
+                {
+                    this.FirstPlayer.Lives -= 1;
+                }
+                else
+                {
+                    newSearcherList.Add(searcher);
+                }
+            }
+
+            this.Searchers = newSearcherList;
         }
 
         private void MoveEnemies()
