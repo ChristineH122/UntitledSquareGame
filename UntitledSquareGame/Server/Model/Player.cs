@@ -32,41 +32,66 @@ namespace Server.Model
             {
                 case Direction.Up:
                     this.moveUp = !this.moveUp;
+                    this.moveDown = false;
                     break;
                 case Direction.Down:
                     this.moveDown = !this.moveDown;
+                    this.moveUp = false;
                     break;
                 case Direction.Left:
                     this.moveLeft = !this.moveLeft;
+                    this.moveRight = false;
                     break;
                 case Direction.Right:
                     this.moveRight = !this.moveRight;
+                    this.moveLeft = false;
                     break;
                 case Direction.None:
                     break;
             }
         }
 
-        public void Move()
+        public Tuple<double, double> CalculateNewPosition()
         {
+            double x = this.Square.X;
+            double y = this.Square.Y;
+            
+
             if (this.moveUp)
             {
-                this.Square.Y -= MOVEMENT_SPEED;
+                y -= MOVEMENT_SPEED;
             }
 
             if (this.moveDown)
             {
-                this.Square.Y += MOVEMENT_SPEED;
+                y += MOVEMENT_SPEED;
             }
 
             if (this.moveLeft)
             {
-                this.Square.X -= MOVEMENT_SPEED;
+                x -= MOVEMENT_SPEED;
             }
 
             if (this.moveRight)
             {
-                this.Square.X += MOVEMENT_SPEED;
+                x += MOVEMENT_SPEED;
+            }
+
+            return new Tuple<double, double>(x, y);
+        }
+
+        public void Move(double borderX, double borderY, double borderWidth, double borderHeight)
+        {
+            var newPosition = this.CalculateNewPosition();
+
+            if (newPosition.Item1 > borderX && newPosition.Item1 + this.Square.Width < borderX + borderWidth)
+            {
+                this.Square.X = newPosition.Item1;
+            }
+
+            if (newPosition.Item2 > borderY && newPosition.Item2 + this.Square.Height < borderY + borderHeight)
+            {
+                this.Square.Y = newPosition.Item2;
             }
         }
     }

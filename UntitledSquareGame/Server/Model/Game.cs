@@ -12,6 +12,11 @@ namespace Server.Model
     {
         private readonly Action<GameState> updatedStateAction;
 
+        private const double BORDER_X = 2;
+        private const double BORDER_Y = 2;
+        private const double BORDER_WIDTH = 1086;
+        private const double BORDER_HEIGHT = 596;
+
         public Game()
         {
             this.FirstPlayer = new Player();
@@ -60,7 +65,7 @@ namespace Server.Model
 
         private bool CheckCollisions()
         {
-
+            return true;
         }
 
         private void MoveEnemies()
@@ -70,8 +75,8 @@ namespace Server.Model
 
         private void MovePlayers()
         {
-            this.FirstPlayer.Move();
-            this.SecondPlayer.Move();
+            this.FirstPlayer.Move(BORDER_X, BORDER_Y, BORDER_WIDTH, BORDER_HEIGHT);
+            this.SecondPlayer.Move(BORDER_X, BORDER_Y, BORDER_WIDTH, BORDER_HEIGHT);
         }
     }
 }
