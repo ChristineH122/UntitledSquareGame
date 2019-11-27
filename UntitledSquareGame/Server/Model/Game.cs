@@ -40,6 +40,7 @@ namespace Server.Model
             while (true)
             {
                 this.Render();
+                this.CheckCollisions();
 
                 this.updatedStateAction?.Invoke(this.BuildGameState());
                 Thread.Sleep(10);
@@ -55,6 +56,11 @@ namespace Server.Model
         {
             this.MovePlayers();
             this.MoveEnemies();
+        }
+
+        private bool CheckCollisions()
+        {
+
         }
 
         private void MoveEnemies()
