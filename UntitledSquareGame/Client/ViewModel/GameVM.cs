@@ -22,6 +22,7 @@ namespace Client.ViewModel
         private bool moveRight;
         private ConnectionHandler connectionHandler;
         private SquareVM square;
+        private SquareVM secondPlayerSquare;
 
         public GameVM()
         {
@@ -29,6 +30,7 @@ namespace Client.ViewModel
             this.ConHandler.StartListeningForGameStateAsync();
             this.ConHandler.GameStateReceived += ConHandler_GameStateReceived;
             this.Square = new SquareVM(new Square(500, 250, 40, 40));
+            this.SecondPlayerSquare = new SquareVM(new Square(500, 350, 40, 40));
             //this.connectionHandler = new ConnectionHandler("192.168.178.20", 5050);
         }
 
@@ -55,7 +57,21 @@ namespace Client.ViewModel
             private set
             {
                 this.square = value;
-                this.FireOnPropertyChanged();
+                //this.FireOnPropertyChanged();
+            }
+        }
+
+        public SquareVM SecondPlayerSquare
+        {
+            get
+            {
+                return this.secondPlayerSquare;
+            }
+
+            private set
+            {
+                this.secondPlayerSquare = value;
+                //this.FireOnPropertyChanged();
             }
         }
 

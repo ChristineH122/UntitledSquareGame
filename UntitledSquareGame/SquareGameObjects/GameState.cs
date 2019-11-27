@@ -14,5 +14,11 @@ namespace SquareGameObjects
             get;
             set;
         }
+
+        public Square PlayerTwo
+        {
+            get;
+            set;
+        }
     }
 }

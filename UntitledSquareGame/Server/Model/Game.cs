@@ -54,7 +54,7 @@ namespace Server.Model
 
         private GameState BuildGameState()
         {
-            return new GameState { PlayerOne = this.FirstPlayer.Square };
+            return new GameState { PlayerOne = this.FirstPlayer.Square, PlayerTwo = this.SecondPlayer.Square };
         }
 
         private void Render()

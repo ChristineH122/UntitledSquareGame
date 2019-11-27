@@ -12,17 +12,24 @@ namespace Server.Model
 {
     public class Session
     {
-        public Session(User firstUser)
+        public Session(User firstUser, User secondUser)
         {
             this.Game = new Game(this.SendGameStateToClients);
             
             this.FirstUser = firstUser;
+            this.SecondUser = secondUser;
 
             var task = Task.Factory.StartNew(this.ListenFirstPlayerCommand);
+            var task2 = Task.Factory.StartNew(this.ListenSecondPlayerCommand);
             this.Game.Start();
         }
 
         public User FirstUser
+        {
+            get;
+        }
+
+        public User SecondUser
         {
             get;
         }
@@ -42,6 +49,19 @@ namespace Server.Model
                 var bytes = stream.Read(buffer, 0, buffer.Length);
                 var message = Encoding.ASCII.GetString(buffer, 0, bytes);
                 this.HandlePlayerCommnad(this.Game.FirstPlayer, message);
+            }
+        }
+
+        public void ListenSecondPlayerCommand()
+        {
+             var stream = this.SecondUser.Client.GetStream();
+
+            while (true)
+            {
+                var buffer = new byte[1024];
+                var bytes = stream.Read(buffer, 0, buffer.Length);
+                var message = Encoding.ASCII.GetString(buffer, 0, bytes);
+                this.HandlePlayerCommnad(this.Game.SecondPlayer, message);
             }
         }
 
@@ -82,10 +102,12 @@ namespace Server.Model
         {
             var data = this.SerializeGameStateToByteArray(state);
             var firstUserStream = this.FirstUser.Client.GetStream();
-            // todo second user stream ...
-
+            var secondUserStream = this.SecondUser.Client.GetStream();
+        
             firstUserStream.Write(data, 0, data.Length);
+            secondUserStream.Write(data, 0, data.Length);
             firstUserStream.Flush();
+            secondUserStream.Flush();
         }
 
         private byte[] SerializeGameStateToByteArray(GameState gameState)
