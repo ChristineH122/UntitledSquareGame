@@ -40,6 +40,8 @@ namespace Client.ViewModel
         {
             this.Square.X = e.GameState.PlayerOne.X;
             this.Square.Y = e.GameState.PlayerOne.Y;
+            this.SecondPlayerSquare.X = e.GameState.PlayerTwo.X;
+            this.SecondPlayerSquare.Y = e.GameState.PlayerTwo.Y;
         }
 
         public ConnectionHandler ConHandler
@@ -121,25 +123,25 @@ namespace Client.ViewModel
 
         public void Move()
         {
-            if (this.moveUp)
-            {
-                this.Square.Y -= MOVEMENT_SPEED;
-            }
+            //if (this.moveUp)
+            //{
+            //    this.Square.Y -= MOVEMENT_SPEED;
+            //}
 
-            if (this.moveDown)
-            {
-                this.Square.Y += MOVEMENT_SPEED;
-            }
+            //if (this.moveDown)
+            //{
+            //    this.Square.Y += MOVEMENT_SPEED;
+            //}
 
-            if (this.moveLeft)
-            {
-                this.Square.X -= MOVEMENT_SPEED;
-            }
+            //if (this.moveLeft)
+            //{
+            //    this.Square.X -= MOVEMENT_SPEED;
+            //}
 
-            if (this.moveRight)
-            {
-                this.Square.X += MOVEMENT_SPEED;
-            }
+            //if (this.moveRight)
+            //{
+            //    this.Square.X += MOVEMENT_SPEED;
+            //}
         }
 
         protected virtual void FireOnPropertyChanged([CallerMemberName] string name = null)
