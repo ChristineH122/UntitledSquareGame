@@ -82,7 +82,7 @@ namespace Server.Model
                 PlayerTwo = this.SecondPlayer.Square,
                 PlayerTwoLives = this.SecondPlayer.Lives,
                 Searchers = this.Searchers.Select(s => s.Square).ToList(),
-                Projectiles = this.Projectiles
+                Projectiles = this.Projectiles.Select(s => s.Square).ToList()
             };
         }
 
