@@ -25,6 +25,7 @@ namespace Server.Model
             this.FirstPlayer = new Player();
             this.SecondPlayer = new Player();
             this.Searchers = new List<Searcher>();
+            this.Projectiles = new List<Projectile>();
         }
 
         public Game(Action<GameState> updatedStateAction)
@@ -33,6 +34,7 @@ namespace Server.Model
             this.FirstPlayer = new Player();
             this.SecondPlayer = new Player();
             this.Searchers = new List<Searcher>();
+            this.Projectiles = new List<Projectile>();
             this.updatedStateAction = updatedStateAction ?? throw new ArgumentNullException(nameof(updatedStateAction));
         }
 
@@ -47,6 +49,12 @@ namespace Server.Model
         }
 
         public List<Searcher> Searchers
+        {
+            get;
+            set;
+        }
+
+        public List<Projectile> Projectiles
         {
             get;
             set;
@@ -74,16 +82,40 @@ namespace Server.Model
                 PlayerTwo = this.SecondPlayer.Square,
                 PlayerTwoLives = this.SecondPlayer.Lives,
                 Searchers = this.Searchers.Select(s => s.Square).ToList(),
+                Projectiles = this.Projectiles
             };
         }
 
         private void Render()
         {
+            this.MoveProjectiles();
             this.MovePlayers();
             this.MoveEnemies();
         }
 
         private void ResolveCollisions()
+        {
+            this.ResolveProjectileCollisions();
+            this.ResolveSearcherCollisions();
+        }
+
+        private void ResolveProjectileCollisions()
+        {
+            var updatedSearcherList = new List<Searcher>();
+
+            foreach (var projectile in this.Projectiles)
+            {
+                foreach (var searcher in this.Searchers)
+                {
+                    if (!projectile.CollidesWith(searcher))
+                    {
+                        updatedSearcherList.Add(searcher);
+                    }
+                }
+            }
+        }
+
+        private void ResolveSearcherCollisions()
         {
             var newSearcherList = new List<Searcher>();
 
@@ -114,6 +146,11 @@ namespace Server.Model
         {
             this.FirstPlayer.Move(BORDER_X, BORDER_Y, BORDER_WIDTH, BORDER_HEIGHT);
             this.SecondPlayer.Move(BORDER_X, BORDER_Y, BORDER_WIDTH, BORDER_HEIGHT);
+        }
+
+        private void MoveProjectiles()
+        {
+            
         }
 
         private void SpawnNewEnemy()

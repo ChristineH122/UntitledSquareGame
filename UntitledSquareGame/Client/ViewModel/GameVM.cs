@@ -130,6 +130,29 @@ namespace Client.ViewModel
             }
         }
 
+        public void Shoot(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Up:
+                    this.ConHandler.Shoot(Direction.Up);
+                    break;
+                case Direction.Down:
+                    this.ConHandler.Shoot(Direction.Down);
+                    break;
+                case Direction.Left:
+                    this.ConHandler.Shoot(Direction.Left);
+                    break;
+                case Direction.Right:
+                    this.ConHandler.Shoot(Direction.Right);
+                    break;
+                case Direction.None:
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public void Move()
         {
             //if (this.moveUp)

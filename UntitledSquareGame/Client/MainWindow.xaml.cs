@@ -74,6 +74,26 @@ namespace Client
             {
                 this.game.ChangeDirection(Direction.Right); 
             }
+
+            if (e.Key == Key.Up)
+            {
+                this.Game.Shoot(Direction.Up);
+            }
+
+            if (e.Key == Key.Down)
+            {
+                this.Game.Shoot(Direction.Down);
+            }
+
+            if (e.Key == Key.Left)
+            {
+                this.Game.Shoot(Direction.Left);
+            }
+
+            if (e.Key == Key.Right)
+            {
+                this.Game.Shoot(Direction.Right);
+            }
         }
 
         private void MyCanvas_KeyUp(object sender, KeyEventArgs e)

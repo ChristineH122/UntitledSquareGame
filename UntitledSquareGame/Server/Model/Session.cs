@@ -125,7 +125,26 @@ namespace Server.Model
 
             if (command == "shoot")
             {
+                var x = player.Square.X;
+                var y = player.Square.Y;
 
+                switch (parameter)
+                {
+                    case "up":
+                        this.Game.Projectiles.Add(new Projectile(Direction.Up, x, y));
+                        break;
+                    case "down":
+                        this.Game.Projectiles.Add(new Projectile(Direction.Down, x, y));
+                        break;
+                    case "left":
+                        this.Game.Projectiles.Add(new Projectile(Direction.Left, x, y));
+                        break;
+                    case "right":
+                        this.Game.Projectiles.Add(new Projectile(Direction.Right, x, y));
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 

@@ -30,5 +30,11 @@ namespace SquareGameObjects
             get;
             set;
         }
+
+        public List<Square> Projectiles
+        {
+            get;
+            set;
+        }
     }
 }

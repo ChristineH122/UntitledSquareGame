@@ -22,6 +22,10 @@ namespace Client.Model
         private const string STOP_MOVE_DOWN_COMMAND = "stopmove:down";
         private const string STOP_MOVE_LEFT_COMMAND = "stopmove:left";
         private const string STOP_MOVE_RIGHT_COMMAND = "stopmove:right";
+        private const string SHOOT_UP_COMMAND = "shoot:up";
+        private const string SHOOT_DOWN_COMMAND = "shoot:down";
+        private const string SHOOT_LEFT_COMMAND = "shoot:left";
+        private const string SHOOT_RIGHT_COMMAND = "shoot:right";
 
         private TcpClient client;
         private IPEndPoint endpoint;
@@ -136,9 +140,40 @@ namespace Client.Model
             writer.Flush();
         }
 
+        public void Shoot(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Up:
+                    this.SendShootCommand(SHOOT_UP_COMMAND);
+                    break;
+                case Direction.Down:
+                    this.SendShootCommand(SHOOT_DOWN_COMMAND);
+                    break;
+                case Direction.Left:
+                    this.SendShootCommand(SHOOT_LEFT_COMMAND);
+                    break;
+                case Direction.Right:
+                    this.SendShootCommand(SHOOT_RIGHT_COMMAND);
+                    break;
+                case Direction.None:
+                    break;
+                default:
+                    break;
+            }
+        }
+
         protected virtual void FireGameStateReceivedReceived(GameStateReceivedEventArgs args)
         {
             this.GameStateReceived?.Invoke(this, args);
+        }
+
+        private void SendShootCommand(string command)
+        {
+            var stream = client.GetStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(command);
+            writer.Flush();
         }
     }
 }
