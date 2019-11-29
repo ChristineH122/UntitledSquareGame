@@ -17,8 +17,11 @@ namespace Server.Model
         private const double BORDER_WIDTH = 1086;
         private const double BORDER_HEIGHT = 596;
 
+        private Random random;
+
         public Game()
         {
+            this.random = new Random();
             this.FirstPlayer = new Player();
             this.SecondPlayer = new Player();
             this.Searchers = new List<Searcher>();
@@ -26,6 +29,7 @@ namespace Server.Model
 
         public Game(Action<GameState> updatedStateAction)
         {
+            this.random = new Random();
             this.FirstPlayer = new Player();
             this.SecondPlayer = new Player();
             this.Searchers = new List<Searcher>();
@@ -50,10 +54,11 @@ namespace Server.Model
 
         public void Start()
         {
-            this.Searchers.Add(new Searcher(this.FirstPlayer, 20, 20));
+            //this.Searchers.Add(new Searcher(this.FirstPlayer, 20, 20));
 
             while (true)
             {
+                this.SpawnNewEnemy();
                 this.Render();
                 this.ResolveCollisions();
 
@@ -64,13 +69,14 @@ namespace Server.Model
 
         private GameState BuildGameState()
         {
-            return new GameState {
+            return new GameState
+            {
                 PlayerOne = this.FirstPlayer.Square,
                 PlayerOneLives = this.FirstPlayer.Lives,
                 PlayerTwo = this.SecondPlayer.Square,
                 PlayerTwoLives = this.SecondPlayer.Lives,
                 Searchers = this.Searchers.Select(s => s.Square).ToList(),
-                };
+            };
         }
 
         private void Render()
@@ -110,6 +116,63 @@ namespace Server.Model
         {
             this.FirstPlayer.Move(BORDER_X, BORDER_Y, BORDER_WIDTH, BORDER_HEIGHT);
             this.SecondPlayer.Move(BORDER_X, BORDER_Y, BORDER_WIDTH, BORDER_HEIGHT);
+        }
+
+        private void SpawnNewEnemy()
+        {
+            int shouldSpawn = this.random.Next(0, (50 * this.Searchers.Count));
+
+            if(shouldSpawn < (50 * this.Searchers.Count) - 1)
+            {
+                return;
+            }
+
+            Searcher newSearcher = null;
+            Player target = null;
+            Direction spawnDirection = Direction.None;
+            int targetNumber = this.random.Next(1, 3);
+            int x = 0;
+            int y = 0;
+
+            spawnDirection = RandomHelper.GetRandomDirection(this.random);
+
+            switch(spawnDirection)
+            {
+                case Direction.Up:
+                    x = this.random.Next(0, 1046);
+                    y = -45;
+                    break;
+
+                case Direction.Down:
+                    x = this.random.Next(0, 1046);
+                    y = 640;
+                    break;
+
+                case Direction.Left:
+                    x = -45;
+                    y = this.random.Next(0, 546);
+                    break;
+
+                case Direction.Right:
+                    x = 1130;
+                    y = this.random.Next(0, 546);
+                    break;
+            }
+
+            switch(targetNumber)
+            {
+                case 1:
+                    target = this.FirstPlayer;
+                    break;
+
+                case 2:
+                    target = this.SecondPlayer;
+                    break;
+            }
+
+            newSearcher = new Searcher(target, x, y);
+
+            this.Searchers.Add(newSearcher);
         }
     }
 }

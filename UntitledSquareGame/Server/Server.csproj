@@ -53,6 +53,7 @@
     <Compile Include="Model\ICollidable.cs" />
     <Compile Include="Model\IGameObject.cs" />
     <Compile Include="Model\Player.cs" />
+    <Compile Include="Model\RandomHelper.cs" />
     <Compile Include="Model\Searcher.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="Model\User.cs" />

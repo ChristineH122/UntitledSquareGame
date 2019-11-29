@@ -39,15 +39,18 @@ namespace Server.Model
 
             var newPosition = this.CalculateNewPosition();
 
-            if (newPosition.Item1 > borderX && newPosition.Item1 + this.Square.Width < borderX + borderWidth)
-            {
-                this.Square.X = newPosition.Item1;
-            }
+            //if (newPosition.Item1 > borderX && newPosition.Item1 + this.Square.Width < borderX + borderWidth)
+            //{
+            //    this.Square.X = newPosition.Item1;
+            //}
 
-            if (newPosition.Item2 > borderY && newPosition.Item2 + this.Square.Height < borderY + borderHeight)
-            {
-                this.Square.Y = newPosition.Item2;
-            }
+            //if (newPosition.Item2 > borderY && newPosition.Item2 + this.Square.Height < borderY + borderHeight)
+            //{
+            //    this.Square.Y = newPosition.Item2;
+            //}
+
+            this.Square.X = newPosition.Item1;
+            this.Square.Y = newPosition.Item2;
         }
 
         public Tuple<double, double> CalculateNewPosition()
