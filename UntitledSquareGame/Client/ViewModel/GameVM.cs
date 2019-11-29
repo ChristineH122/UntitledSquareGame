@@ -91,19 +91,19 @@ namespace Client.ViewModel
             switch (direction)
             {
                 case Direction.Up:
-                    this.ConHandler.MoveUp();
+                    this.ConHandler.StartMoveUp();
                     break;
 
                 case Direction.Down:
-                    this.ConHandler.MoveDown();
+                    this.ConHandler.StartMoveDown();
                     break;
 
                 case Direction.Left:
-                    this.ConHandler.MoveLeft();
+                    this.ConHandler.StartMoveLeft();
                     break;
 
                 case Direction.Right:
-                    this.ConHandler.MoveRight();
+                    this.ConHandler.StartMoveRight();
                     break;
             }
         }
@@ -113,19 +113,19 @@ namespace Client.ViewModel
             switch (direction)
             {
                 case Direction.Up:
-                    this.ConHandler.MoveUp();
+                    this.ConHandler.StopMoveUp();
                     break;
 
                 case Direction.Down:
-                    this.ConHandler.MoveDown();
+                    this.ConHandler.StopMoveDown();
                     break;
 
                 case Direction.Left:
-                    this.ConHandler.MoveLeft();
+                    this.ConHandler.StopMoveLeft();
                     break;
 
                 case Direction.Right:
-                    this.ConHandler.MoveRight();
+                    this.ConHandler.StopMoveRight();
                     break;
             }
         }

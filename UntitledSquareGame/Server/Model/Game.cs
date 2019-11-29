@@ -54,8 +54,6 @@ namespace Server.Model
 
         public void Start()
         {
-            //this.Searchers.Add(new Searcher(this.FirstPlayer, 20, 20));
-
             while (true)
             {
                 this.SpawnNewEnemy();
@@ -120,9 +118,11 @@ namespace Server.Model
 
         private void SpawnNewEnemy()
         {
-            int shouldSpawn = this.random.Next(0, (50 * this.Searchers.Count));
+            int spawnChance = 50 * this.Searchers.Count + 1;
 
-            if(shouldSpawn < (50 * this.Searchers.Count) - 1)
+            int shouldSpawn = this.random.Next(0, spawnChance);
+
+            if(shouldSpawn < spawnChance - 1)
             {
                 return;
             }

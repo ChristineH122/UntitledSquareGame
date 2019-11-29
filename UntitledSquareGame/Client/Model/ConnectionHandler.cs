@@ -14,10 +14,14 @@ namespace Client.Model
 {
     public class ConnectionHandler
     {
-        private const string MOVE_UP_COMMAND = "move:up";
-        private const string MOVE_DOWN_COMMAND = "move:down";
-        private const string MOVE_LEFT_COMMAND = "move:left";
-        private const string MOVE_RIGHT_COMMAND = "move:right";
+        private const string START_MOVE_UP_COMMAND = "startmove:up";
+        private const string START_MOVE_DOWN_COMMAND = "startmove:down";
+        private const string START_MOVE_LEFT_COMMAND = "startmove:left";
+        private const string START_MOVE_RIGHT_COMMAND = "startmove:right";
+        private const string STOP_MOVE_UP_COMMAND = "stopmove:up";
+        private const string STOP_MOVE_DOWN_COMMAND = "stopmove:down";
+        private const string STOP_MOVE_LEFT_COMMAND = "stopmove:left";
+        private const string STOP_MOVE_RIGHT_COMMAND = "stopmove:right";
 
         private TcpClient client;
         private IPEndPoint endpoint;
@@ -68,35 +72,67 @@ namespace Client.Model
             return task;
         }
 
-        public void MoveUp()
+        public void StartMoveUp()
         {
             var stream = client.GetStream();
             var writer = new StreamWriter(stream);
-            writer.Write(MOVE_UP_COMMAND);
+            writer.Write(START_MOVE_UP_COMMAND);
             writer.Flush();
         }
 
-        public void MoveDown()
+        public void StartMoveDown()
         {
             var stream = client.GetStream();
             var writer = new StreamWriter(stream);
-            writer.Write(MOVE_DOWN_COMMAND);
+            writer.Write(START_MOVE_DOWN_COMMAND);
             writer.Flush();
         }
 
-        public void MoveLeft()
+        public void StartMoveLeft()
         {
             var stream = client.GetStream();
             var writer = new StreamWriter(stream);
-            writer.Write(MOVE_LEFT_COMMAND);
+            writer.Write(START_MOVE_LEFT_COMMAND);
             writer.Flush();
         }
 
-        public void MoveRight()
+        public void StartMoveRight()
         {
             var stream = client.GetStream();
             var writer = new StreamWriter(stream);
-            writer.Write(MOVE_RIGHT_COMMAND);
+            writer.Write(START_MOVE_RIGHT_COMMAND);
+            writer.Flush();
+        }
+
+        public void StopMoveUp()
+        {
+            var stream = client.GetStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(STOP_MOVE_UP_COMMAND);
+            writer.Flush();
+        }
+
+        public void StopMoveDown()
+        {
+            var stream = client.GetStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(STOP_MOVE_DOWN_COMMAND);
+            writer.Flush();
+        }
+
+        public void StopMoveLeft()
+        {
+            var stream = client.GetStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(STOP_MOVE_LEFT_COMMAND);
+            writer.Flush();
+        }
+
+        public void StopMoveRight()
+        {
+            var stream = client.GetStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(STOP_MOVE_RIGHT_COMMAND);
             writer.Flush();
         }
 

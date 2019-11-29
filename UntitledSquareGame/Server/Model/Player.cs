@@ -34,20 +34,37 @@ namespace Server.Model
             switch (direction)
             {
                 case Direction.Up:
-                    this.moveUp = !this.moveUp;
-                    this.moveDown = false;
+                    this.moveUp = true;
                     break;
                 case Direction.Down:
-                    this.moveDown = !this.moveDown;
-                    this.moveUp = false;
+                    this.moveDown = true;
                     break;
                 case Direction.Left:
-                    this.moveLeft = !this.moveLeft;
-                    this.moveRight = false;
+                    this.moveLeft = true;
                     break;
                 case Direction.Right:
-                    this.moveRight = !this.moveRight;
+                    this.moveRight = true;
+                    break;
+                case Direction.None:
+                    break;
+            }
+        }
+
+        public void ReleaseDirection(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Up:
+                    this.moveUp = false;
+                    break;
+                case Direction.Down:
+                    this.moveDown = false;
+                    break;
+                case Direction.Left:
                     this.moveLeft = false;
+                    break;
+                case Direction.Right:
+                    this.moveRight = false;
                     break;
                 case Direction.None:
                     break;
@@ -117,6 +134,14 @@ namespace Server.Model
             }
 
             return true;
+        }
+
+        private void ResetDirection()
+        {
+            this.moveUp = false;
+            this.moveDown = false;
+            this.moveLeft = false;
+            this.moveRight = false;
         }
     }
 }

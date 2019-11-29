@@ -81,7 +81,7 @@ namespace Server.Model
             var command = splitMessage[0];
             var parameter = splitMessage[1];
 
-            if (command == "move")
+            if (command == "startmove")
             {
                 switch (parameter)
                 {
@@ -96,6 +96,27 @@ namespace Server.Model
                         break;
                     case "right":
                         player.SetDirection(Direction.Right);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (command == "stopmove")
+            {
+                switch (parameter)
+                {
+                    case "up":
+                        player.ReleaseDirection(Direction.Up);
+                        break;
+                    case "down":
+                        player.ReleaseDirection(Direction.Down);
+                        break;
+                    case "left":
+                        player.ReleaseDirection(Direction.Left);
+                        break;
+                    case "right":
+                        player.ReleaseDirection(Direction.Right);
                         break;
                     default:
                         break;
