@@ -26,23 +26,7 @@ namespace Server.Model
 
         public bool CollidesWith(IGameObject gameObject)
         {
-            var firstPosA = new Tuple<double, double>(this.Square.X, this.Square.Y);
-            var firstPosB = new Tuple<double, double>(this.Square.X + this.Square.Width, this.Square.Y + this.Square.Height);
-
-            var secondPosA = new Tuple<double, double>(gameObject.Square.X, gameObject.Square.Y);
-            var secondPosB = new Tuple<double, double>(gameObject.Square.X + gameObject.Square.Width, gameObject.Square.Y + gameObject.Square.Height);
-
-            if (firstPosA.Item1 > secondPosB.Item1 || firstPosB.Item1 < secondPosA.Item1)
-            {
-                return false;
-            }
-
-            if (firstPosA.Item2 > secondPosB.Item2 || firstPosB.Item2 < secondPosA.Item2)
-            {
-                return false;
-            }
-
-            return true;
+            return this.Square.CollidesWith(gameObject.Square);
         }
 
         public void Move()

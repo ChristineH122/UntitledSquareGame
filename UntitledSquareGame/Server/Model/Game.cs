@@ -91,6 +91,7 @@ namespace Server.Model
             this.MoveProjectiles();
             this.MovePlayers();
             this.MoveEnemies();
+            this.RemoveOuterProjectiles();
         }
 
         private void ResolveCollisions()
@@ -132,6 +133,23 @@ namespace Server.Model
             }
 
             this.Searchers = newSearcherList;
+        }
+
+        private void RemoveOuterProjectiles()
+        {
+            this.Projectiles = this.Projectiles.Where(p => {
+                if (p.Square.X < 0 || p.Square.X > BORDER_WIDTH)
+                {
+                    return false;
+                }
+
+                if (p.Square.Y < 0 || p.Square.X > BORDER_HEIGHT)
+                {
+                    return false;
+                }
+
+                return true;
+            }).ToList();
         }
 
         private void MoveEnemies()
