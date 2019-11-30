@@ -16,7 +16,7 @@ namespace Server.Model
         public Projectile(Direction direction, double x, double y)
         {
             this.direction = direction;
-            this.Square = new Square(x, y, 5, 5);
+            this.Square = new Square(x, y, 5, 5, GameObjectType.Projectile);
         }
 
         public Square Square

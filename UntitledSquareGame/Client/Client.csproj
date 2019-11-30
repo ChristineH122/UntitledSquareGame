@@ -58,6 +58,7 @@
     </ApplicationDefinition>
     <Compile Include="Commands\Command.cs" />
     <Compile Include="EventArguments\GameStateReceivedEventArgs.cs" />
+    <Compile Include="ValueConverter\GameObjectTypeToColorConv.cs" />
     <Compile Include="ViewModel\GameVM.cs" />
     <Compile Include="ViewModel\SquareVM.cs" />
     <Page Include="MainWindow.xaml">

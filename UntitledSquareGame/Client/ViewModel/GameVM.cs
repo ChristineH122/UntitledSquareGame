@@ -24,16 +24,16 @@ namespace Client.ViewModel
         private ConnectionHandler connectionHandler;
         private SquareVM square;
         private SquareVM secondPlayerSquare;
-        private ObservableCollection<Square> searchers;
+        private ObservableCollection<Square> gameObjects;
 
         public GameVM()
         {
-            this.Searchers = new ObservableCollection<Square>();
+            this.GameObjects = new ObservableCollection<Square>();
             this.ConHandler = new ConnectionHandler("127.0.0.1", 5050);
             this.ConHandler.StartListeningForGameStateAsync();
             this.ConHandler.GameStateReceived += ConHandler_GameStateReceived;
-            this.Square = new SquareVM(new Square(500, 250, 40, 40));
-            this.SecondPlayerSquare = new SquareVM(new Square(500, 350, 40, 40));
+            this.Square = new SquareVM(new Square(500, 250, 40, 40, GameObjectType.Player1));
+            this.SecondPlayerSquare = new SquareVM(new Square(500, 350, 40, 40, GameObjectType.Player2));
             //this.connectionHandler = new ConnectionHandler("192.168.178.20", 5050);
         }
 
@@ -72,16 +72,16 @@ namespace Client.ViewModel
             }
         }
         
-        public ObservableCollection<Square> Searchers
+        public ObservableCollection<Square> GameObjects
         {
             get
             {
-                return this.searchers;
+                return this.gameObjects;
             }
 
             set
             {
-                this.searchers = value;
+                this.gameObjects = value;
                 this.FireOnPropertyChanged();
             }
         }
@@ -183,11 +183,8 @@ namespace Client.ViewModel
 
         private void ConHandler_GameStateReceived(object sender, EventArguments.GameStateReceivedEventArgs e)
         {
-            this.Square.X = e.GameState.PlayerOne.X;
-            this.Square.Y = e.GameState.PlayerOne.Y;
-            this.SecondPlayerSquare.X = e.GameState.PlayerTwo.X;
-            this.SecondPlayerSquare.Y = e.GameState.PlayerTwo.Y;
-            this.Searchers = new ObservableCollection<Square>(e.GameState.Searchers);
+            //TODO Leben
+            this.GameObjects = new ObservableCollection<Square>(e.GameState.GameObjects);
         }
     }
 }

@@ -22,8 +22,8 @@ namespace Server.Model
         public Game()
         {
             this.random = new Random();
-            this.FirstPlayer = new Player();
-            this.SecondPlayer = new Player();
+            this.FirstPlayer = new Player(GameObjectType.Player1);
+            this.SecondPlayer = new Player(GameObjectType.Player2);
             this.Searchers = new List<Searcher>();
             this.Projectiles = new List<Projectile>();
         }
@@ -31,8 +31,8 @@ namespace Server.Model
         public Game(Action<GameState> updatedStateAction)
         {
             this.random = new Random();
-            this.FirstPlayer = new Player();
-            this.SecondPlayer = new Player();
+            this.FirstPlayer = new Player(GameObjectType.Player1);
+            this.SecondPlayer = new Player(GameObjectType.Player2);
             this.Searchers = new List<Searcher>();
             this.Projectiles = new List<Projectile>();
             this.updatedStateAction = updatedStateAction ?? throw new ArgumentNullException(nameof(updatedStateAction));
@@ -77,12 +77,9 @@ namespace Server.Model
         {
             return new GameState
             {
-                PlayerOne = this.FirstPlayer.Square,
                 PlayerOneLives = this.FirstPlayer.Lives,
-                PlayerTwo = this.SecondPlayer.Square,
                 PlayerTwoLives = this.SecondPlayer.Lives,
-                Searchers = this.Searchers.Select(s => s.Square).ToList(),
-                Projectiles = this.Projectiles.Select(s => s.Square).ToList()
+                GameObjects = this.Searchers.Select(s => s.Square).Concat(this.Projectiles.Select(s => s.Square)).Prepend(this.FirstPlayer.Square).Prepend(this.SecondPlayer.Square).ToList(),
             };
         }
 
@@ -104,16 +101,31 @@ namespace Server.Model
         {
             var updatedSearcherList = new List<Searcher>();
 
-            foreach (var projectile in this.Projectiles)
+            bool isHit = false;
+
+
+            foreach (var searcher in this.Searchers)
             {
-                foreach (var searcher in this.Searchers)
+                foreach (var projectile in this.Projectiles)
                 {
-                    if (!projectile.CollidesWith(searcher))
+
+                    if (projectile.CollidesWith(searcher))
                     {
-                        updatedSearcherList.Add(searcher);
+                        isHit = true;
                     }
+
                 }
+
+                if (!isHit)
+                {
+                    updatedSearcherList.Add(searcher);
+                }
+
+                isHit = false;
             }
+            
+
+            this.Searchers = updatedSearcherList;
         }
 
         private void ResolveSearcherCollisions()
@@ -143,7 +155,7 @@ namespace Server.Model
                     return false;
                 }
 
-                if (p.Square.Y < 0 || p.Square.X > BORDER_HEIGHT)
+                if (p.Square.Y < 0 || p.Square.Y > BORDER_HEIGHT)
                 {
                     return false;
                 }
@@ -168,7 +180,10 @@ namespace Server.Model
 
         private void MoveProjectiles()
         {
-            
+            foreach(var projectile in this.Projectiles)
+            {
+                projectile.Move();
+            }
         }
 
         private void SpawnNewEnemy()

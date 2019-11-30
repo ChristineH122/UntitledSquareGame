@@ -16,9 +16,9 @@ namespace Server.Model
         private bool moveLeft;
         private bool moveRight;
 
-        public Player()
+        public Player(GameObjectType type)
         {
-            this.Square = new Square(500, 250, 40, 40);
+            this.Square = new Square(500, 250, 40, 40, type);
             this.Lives = 3;
         }
 

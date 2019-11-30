@@ -9,12 +9,18 @@ namespace SquareGameObjects
     [Serializable()]
     public class Square
     {
-        public Square(double x, double y, int width, int height)
+        public Square(double x, double y, int width, int height, GameObjectType type)
         {
             this.X = x;
             this.Y = y;
             this.Width = width;
             this.Height = height;
+            this.GameObjectType = type;
+        }
+
+        public GameObjectType GameObjectType
+        {
+            get;
         }
 
         public double X

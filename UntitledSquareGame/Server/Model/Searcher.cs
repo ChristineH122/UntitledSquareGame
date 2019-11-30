@@ -9,7 +9,7 @@ namespace Server.Model
 {
     public class Searcher : ICollidable
     {
-        private const double MOVEMENT_SPEED = 1;
+        private const double MOVEMENT_SPEED = 2;
 
         private bool moveUp;
         private bool moveDown;
@@ -19,7 +19,7 @@ namespace Server.Model
         public Searcher(Player target, double x, double y)
         {
             this.Target = target ?? throw new ArgumentNullException(nameof(target));
-            this.Square = new Square(x, y, 40, 40);
+            this.Square = new Square(x, y, 40, 40, GameObjectType.Searcher);
         }
 
         public Player Target

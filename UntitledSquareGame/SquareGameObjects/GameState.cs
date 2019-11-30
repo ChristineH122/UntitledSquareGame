@@ -12,6 +12,12 @@ namespace SquareGameObjects
         public int PlayerOneLives { get; set; }
         public int PlayerTwoLives { get; set; }
 
+        public List<Square> GameObjects
+        {
+            get;
+            set;
+        }
+
 
         public Square PlayerOne
         {
