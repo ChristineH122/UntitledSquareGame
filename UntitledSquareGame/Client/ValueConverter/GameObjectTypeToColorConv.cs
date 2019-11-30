@@ -25,7 +25,7 @@ namespace Client.ValueConverter
                 case GameObjectType.Searcher:
                     return new SolidColorBrush(Colors.CornflowerBlue);
                 case GameObjectType.Projectile:
-                    return new SolidColorBrush(Colors.Aqua);
+                    return new SolidColorBrush(Colors.Black);
                 case GameObjectType.Tank:
                     return new SolidColorBrush(Colors.Pink);
             }

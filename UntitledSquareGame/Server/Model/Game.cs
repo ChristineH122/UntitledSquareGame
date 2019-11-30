@@ -100,6 +100,7 @@ namespace Server.Model
         private void ResolveProjectileCollisions()
         {
             var updatedSearcherList = new List<Searcher>();
+            var updatedProjectileList = new List<Projectile>();
 
             bool isHit = false;
 

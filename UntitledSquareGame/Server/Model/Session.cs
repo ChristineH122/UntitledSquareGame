@@ -125,8 +125,8 @@ namespace Server.Model
 
             if (command == "shoot")
             {
-                var x = player.Square.X;
-                var y = player.Square.Y;
+                var x = player.Square.X + player.Square.Width/2;
+                var y = player.Square.Y + player.Square.Height/2;
 
                 switch (parameter)
                 {
