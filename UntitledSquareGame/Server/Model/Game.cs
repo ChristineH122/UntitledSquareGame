@@ -137,7 +137,11 @@ namespace Server.Model
             {
                 if (this.FirstPlayer.CollidesWith(searcher))
                 {
-                    this.FirstPlayer.Lives -= 1;
+                    this.FirstPlayer.Lives--;
+                }
+                else if (this.SecondPlayer.CollidesWith(searcher))
+                {
+                    this.SecondPlayer.Lives--;
                 }
                 else
                 {
