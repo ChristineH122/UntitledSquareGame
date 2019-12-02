@@ -24,6 +24,8 @@ namespace Client.ViewModel
         private ConnectionHandler connectionHandler;
         private SquareVM square;
         private SquareVM secondPlayerSquare;
+        private int playerOneLives;
+        private int playerTwoLives;
         private ObservableCollection<Square> gameObjects;
 
         public GameVM()
@@ -82,6 +84,32 @@ namespace Client.ViewModel
             set
             {
                 this.gameObjects = value;
+                this.FireOnPropertyChanged();
+            }
+        }
+
+        public int PlayerOneLives
+        {
+            get
+            {
+                return this.playerOneLives;
+            }
+            private set
+            {
+                this.playerOneLives = value;
+                this.FireOnPropertyChanged();
+            }
+        }
+        
+        public int PlayerTwoLives
+        {
+            get
+            {
+                return this.playerTwoLives;
+            }
+            private set
+            {
+                this.playerTwoLives = value;
                 this.FireOnPropertyChanged();
             }
         }
@@ -183,8 +211,9 @@ namespace Client.ViewModel
 
         private void ConHandler_GameStateReceived(object sender, EventArguments.GameStateReceivedEventArgs e)
         {
-            //TODO Leben
             this.GameObjects = new ObservableCollection<Square>(e.GameState.GameObjects);
+            this.PlayerOneLives = e.GameState.PlayerOneLives;
+            this.PlayerTwoLives = e.GameState.PlayerTwoLives;
         }
     }
 }
