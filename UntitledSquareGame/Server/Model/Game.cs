@@ -12,10 +12,10 @@ namespace Server.Model
     {
         private readonly Action<GameState> updatedStateAction;
 
-        private const double BORDER_X = 2;
-        private const double BORDER_Y = 2;
-        private const double BORDER_WIDTH = 1086;
-        private const double BORDER_HEIGHT = 596;
+        private const double BORDER_X = 0;
+        private const double BORDER_Y = 0;
+        private const double BORDER_WIDTH = 1087;
+        private const double BORDER_HEIGHT = 597;
 
         private Random random;
 
