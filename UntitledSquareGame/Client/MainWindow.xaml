@@ -8,7 +8,8 @@
         xmlns:converter="clr-namespace:Client.ValueConverter"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1100"
-        FocusManager.FocusedElement="{Binding ElementName=MyCanvas}">
+        FocusManager.FocusedElement="{Binding ElementName=MyCanvas}"
+        ResizeMode="NoResize">
     <Window.Resources>
         <converter:GameObjectTypeToColorConv x:Key="colorConv"/>
     </Window.Resources>
