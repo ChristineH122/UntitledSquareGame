@@ -26,6 +26,7 @@ namespace Client.ViewModel
         private SquareVM secondPlayerSquare;
         private int playerOneLives;
         private int playerTwoLives;
+        private int score;
         private ObservableCollection<Square> gameObjects;
 
         public GameVM()
@@ -110,6 +111,19 @@ namespace Client.ViewModel
             private set
             {
                 this.playerTwoLives = value;
+                this.FireOnPropertyChanged();
+            }
+        }
+
+        public int Score
+        {
+            get
+            {
+                return this.score;
+            }
+            set
+            {
+                this.score = value;
                 this.FireOnPropertyChanged();
             }
         }
@@ -211,6 +225,9 @@ namespace Client.ViewModel
 
         private void ConHandler_GameStateReceived(object sender, EventArguments.GameStateReceivedEventArgs e)
         {
+            /*
+             * TODO: Score
+             * */
             this.GameObjects = new ObservableCollection<Square>(e.GameState.GameObjects);
             this.PlayerOneLives = e.GameState.PlayerOneLives;
             this.PlayerTwoLives = e.GameState.PlayerTwoLives;
