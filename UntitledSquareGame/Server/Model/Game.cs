@@ -114,7 +114,6 @@ namespace Server.Model
                     {
                         isHit = true;
                     }
-
                 }
 
                 if (!isHit)
