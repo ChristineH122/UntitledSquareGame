@@ -32,7 +32,7 @@ namespace Server
                 Users.Add(user);
                 var secondClient = listener.AcceptTcpClient();
                 var user2 = new User(secondClient);
-                var session = new Session(user);
+                var session = new Session(user, user2);
             }
         }
     }
