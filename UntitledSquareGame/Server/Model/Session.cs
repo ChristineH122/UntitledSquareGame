@@ -58,7 +58,7 @@ namespace Server.Model
                 var buffer = new byte[1024];
                 var bytes = stream.Read(buffer, 0, buffer.Length);
                 var message = Encoding.ASCII.GetString(buffer, 0, bytes);
-                this.HandlePlayerCommnad(this.Game.FirstPlayer, message);
+                this.HandlePlayerCommand(this.Game.FirstPlayer, message);
             }
         }
 
@@ -71,11 +71,11 @@ namespace Server.Model
                 var buffer = new byte[1024];
                 var bytes = stream.Read(buffer, 0, buffer.Length);
                 var message = Encoding.ASCII.GetString(buffer, 0, bytes);
-                this.HandlePlayerCommnad(this.Game.SecondPlayer, message);
+                this.HandlePlayerCommand(this.Game.SecondPlayer, message);
             }
         }
 
-        public void HandlePlayerCommnad(Player player, string message)
+        public void HandlePlayerCommand(Player player, string message)
         {
             var splitMessage = message.Split(':');
             var command = splitMessage[0];
@@ -131,16 +131,16 @@ namespace Server.Model
                 switch (parameter)
                 {
                     case "up":
-                        this.Game.Projectiles.Add(new Projectile(Direction.Up, x, y));
+                        player.ShootDirection = Direction.Up;
                         break;
                     case "down":
-                        this.Game.Projectiles.Add(new Projectile(Direction.Down, x, y));
+                        player.ShootDirection = Direction.Down;
                         break;
                     case "left":
-                        this.Game.Projectiles.Add(new Projectile(Direction.Left, x, y));
+                        player.ShootDirection = Direction.Left;
                         break;
                     case "right":
-                        this.Game.Projectiles.Add(new Projectile(Direction.Right, x, y));
+                        player.ShootDirection = Direction.Right;
                         break;
                     default:
                         break;
@@ -152,12 +152,12 @@ namespace Server.Model
         {
             var data = this.SerializeGameStateToByteArray(state);
             var firstUserStream = this.FirstUser.Client.GetStream();
-            //var secondUserStream = this.SecondUser.Client.GetStream();
+            var secondUserStream = this.SecondUser.Client.GetStream();
         
             firstUserStream.Write(data, 0, data.Length);
-            //secondUserStream.Write(data, 0, data.Length);
+            secondUserStream.Write(data, 0, data.Length);
             firstUserStream.Flush();
-            //secondUserStream.Flush();
+            secondUserStream.Flush();
         }
 
         private byte[] SerializeGameStateToByteArray(GameState gameState)

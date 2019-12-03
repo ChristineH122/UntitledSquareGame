@@ -27,6 +27,8 @@ namespace Client.ViewModel
         private int playerOneLives;
         private int playerTwoLives;
         private int score;
+        private bool gameOver;
+        private bool hideGameOverMessage;
         private ObservableCollection<Square> gameObjects;
 
         public GameVM()
@@ -37,6 +39,7 @@ namespace Client.ViewModel
             this.ConHandler.GameStateReceived += ConHandler_GameStateReceived;
             this.Square = new SquareVM(new Square(500, 250, 40, 40, GameObjectType.Player1));
             this.SecondPlayerSquare = new SquareVM(new Square(500, 350, 40, 40, GameObjectType.Player2));
+            this.HideGameOverMessage = true;
             //this.connectionHandler = new ConnectionHandler("192.168.178.20", 5050);
         }
 
@@ -124,6 +127,32 @@ namespace Client.ViewModel
             set
             {
                 this.score = value;
+                this.FireOnPropertyChanged();
+            }
+        }
+
+        public bool GameOver
+        {
+            get
+            {
+                return this.gameOver;
+            }
+            set
+            {
+                this.gameOver = value;
+                this.FireOnPropertyChanged();
+            }
+        }
+
+        public bool HideGameOverMessage
+        {
+            get
+            {
+                return this.hideGameOverMessage;
+            }
+            set
+            {
+                this.hideGameOverMessage = value;
                 this.FireOnPropertyChanged();
             }
         }
@@ -231,6 +260,9 @@ namespace Client.ViewModel
             this.GameObjects = new ObservableCollection<Square>(e.GameState.GameObjects);
             this.PlayerOneLives = e.GameState.PlayerOneLives;
             this.PlayerTwoLives = e.GameState.PlayerTwoLives;
+            this.Score = e.GameState.Score;
+            this.GameOver = e.GameState.GameOver;
+            this.HideGameOverMessage = !e.GameState.GameOver;
         }
     }
 }

@@ -16,6 +16,8 @@ namespace Server.Model
         private bool moveLeft;
         private bool moveRight;
 
+        
+
         public Player(GameObjectType type)
         {
             this.Square = new Square(500, 250, 40, 40, type);
@@ -27,6 +29,12 @@ namespace Server.Model
         public Square Square
         {
             get;
+        }
+
+        public Direction ShootDirection
+        {
+            get;
+            set;
         }
 
         public void SetDirection(Direction direction)
@@ -115,17 +123,26 @@ namespace Server.Model
             }
         }
 
+        public Projectile GetProjectileOrNull()
+        {
+            if (this.ShootDirection != Direction.None)
+            {
+                var newProj = new Projectile(this.ShootDirection, this.Square.X + this.Square.Width / 2, this.Square.Y + this.Square.Height / 2);
+                this.ResetShoot();
+                return newProj;
+            }
+
+            return null;
+        }
+
         public bool CollidesWith(IGameObject gameObject)
         {
             return this.Square.CollidesWith(gameObject.Square);
         }
 
-        private void ResetDirection()
+        private void ResetShoot()
         {
-            this.moveUp = false;
-            this.moveDown = false;
-            this.moveLeft = false;
-            this.moveRight = false;
+            this.ShootDirection = Direction.None; 
         }
     }
 }
