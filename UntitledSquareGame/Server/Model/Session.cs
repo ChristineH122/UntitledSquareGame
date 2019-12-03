@@ -131,16 +131,16 @@ namespace Server.Model
                 switch (parameter)
                 {
                     case "up":
-                        this.Game.Projectiles.Add(new Projectile(Direction.Up, x, y));
+                        player.ShootDirection = Direction.Up;
                         break;
                     case "down":
-                        this.Game.Projectiles.Add(new Projectile(Direction.Down, x, y));
+                        player.ShootDirection = Direction.Down;
                         break;
                     case "left":
-                        this.Game.Projectiles.Add(new Projectile(Direction.Left, x, y));
+                        player.ShootDirection = Direction.Left;
                         break;
                     case "right":
-                        this.Game.Projectiles.Add(new Projectile(Direction.Right, x, y));
+                        player.ShootDirection = Direction.Right;
                         break;
                     default:
                         break;

@@ -9,11 +9,10 @@ namespace SquareGameObjects
     [Serializable()]
     public class GameState
     {
-        /*
-         *  TODO: Score
-         * */
         public int PlayerOneLives { get; set; }
         public int PlayerTwoLives { get; set; }
+
+        public int Score { get; set; }
 
         public List<Square> GameObjects
         {

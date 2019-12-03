@@ -231,6 +231,7 @@ namespace Client.ViewModel
             this.GameObjects = new ObservableCollection<Square>(e.GameState.GameObjects);
             this.PlayerOneLives = e.GameState.PlayerOneLives;
             this.PlayerTwoLives = e.GameState.PlayerTwoLives;
+            this.Score = e.GameState.Score;
         }
     }
 }

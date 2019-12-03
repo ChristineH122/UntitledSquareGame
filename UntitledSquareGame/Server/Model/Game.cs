@@ -26,6 +26,7 @@ namespace Server.Model
             this.SecondPlayer = new Player(GameObjectType.Player2);
             this.Searchers = new List<Searcher>();
             this.Projectiles = new List<Projectile>();
+            this.Score = 0;
         }
 
         public Game(Action<GameState> updatedStateAction)
@@ -35,6 +36,7 @@ namespace Server.Model
             this.SecondPlayer = new Player(GameObjectType.Player2);
             this.Searchers = new List<Searcher>();
             this.Projectiles = new List<Projectile>();
+            this.Score = 0;
             this.updatedStateAction = updatedStateAction ?? throw new ArgumentNullException(nameof(updatedStateAction));
         }
 
@@ -46,6 +48,12 @@ namespace Server.Model
         public Player SecondPlayer
         {
             get;
+        }
+
+        public int Score
+        {
+            get;
+            private set;
         }
 
         public List<Searcher> Searchers
@@ -80,12 +88,14 @@ namespace Server.Model
                 PlayerOneLives = this.FirstPlayer.Lives,
                 PlayerTwoLives = this.SecondPlayer.Lives,
                 GameObjects = this.Searchers.Select(s => s.Square).Concat(this.Projectiles.Select(s => s.Square)).Prepend(this.FirstPlayer.Square).Prepend(this.SecondPlayer.Square).ToList(),
+                Score = this.Score
             };
         }
 
         private void Render()
         {
             this.MoveProjectiles();
+            this.PlaceProjectiles();
             this.MovePlayers();
             this.MoveEnemies();
             this.RemoveOuterProjectiles();
@@ -97,10 +107,27 @@ namespace Server.Model
             this.ResolveSearcherCollisions();
         }
 
+        private void PlaceProjectiles()
+        {
+            var proj1 = this.FirstPlayer.GetProjectileOrNull();
+            var proj2 = this.SecondPlayer.GetProjectileOrNull();
+
+            if (proj1 != null)
+            {
+                this.Projectiles.Add(proj1);
+            }
+
+            if (proj2 != null)
+            {
+                this.Projectiles.Add(proj2);
+            }
+        }
+
         private void ResolveProjectileCollisions()
         {
             var updatedSearcherList = new List<Searcher>();
             var updatedProjectileList = new List<Projectile>();
+            var hitProjectileList = new List<Projectile>();
 
             bool isHit = false;
 
@@ -112,6 +139,10 @@ namespace Server.Model
 
                     if (projectile.CollidesWith(searcher))
                     {
+                        if (!hitProjectileList.Contains(projectile))
+                        {
+                            hitProjectileList.Add(projectile);
+                        }
                         isHit = true;
                     }
 
@@ -119,11 +150,17 @@ namespace Server.Model
 
                 if (!isHit)
                 {
-                    updatedSearcherList.Add(searcher);
+                    updatedSearcherList.Add(searcher);                   
+                }
+                else
+                {
+                    this.Score += 1;
                 }
 
                 isHit = false;
             }
+
+            this.Projectiles = this.Projectiles.Except(hitProjectileList).ToList();
             
 
             this.Searchers = updatedSearcherList;
