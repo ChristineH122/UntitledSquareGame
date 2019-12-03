@@ -28,6 +28,7 @@ namespace Client.ViewModel
         private int playerTwoLives;
         private int score;
         private bool gameOver;
+        private bool showGameOverMessage;
         private ObservableCollection<Square> gameObjects;
 
         public GameVM()
@@ -142,6 +143,19 @@ namespace Client.ViewModel
             }
         }
 
+        public bool ShowGameOverMessage
+        {
+            get
+            {
+                return this.showGameOverMessage;
+            }
+            set
+            {
+                this.showGameOverMessage = value;
+                this.FireOnPropertyChanged();
+            }
+        }
+
         public void ChangeDirection(Direction direction)
         {
             switch (direction)
@@ -247,6 +261,7 @@ namespace Client.ViewModel
             this.PlayerTwoLives = e.GameState.PlayerTwoLives;
             this.Score = e.GameState.Score;
             this.GameOver = e.GameState.GameOver;
+            this.ShowGameOverMessage = !e.GameState.GameOver;
         }
     }
 }
