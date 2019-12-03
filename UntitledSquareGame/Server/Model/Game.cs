@@ -70,7 +70,7 @@ namespace Server.Model
 
         public void Start()
         {
-            while (true)
+            while (!this.IsGameOver())
             {
                 this.SpawnNewEnemy();
                 this.Render();
@@ -88,7 +88,8 @@ namespace Server.Model
                 PlayerOneLives = this.FirstPlayer.Lives,
                 PlayerTwoLives = this.SecondPlayer.Lives,
                 GameObjects = this.Searchers.Select(s => s.Square).Concat(this.Projectiles.Select(s => s.Square)).Prepend(this.FirstPlayer.Square).Prepend(this.SecondPlayer.Square).ToList(),
-                Score = this.Score
+                Score = this.Score,
+                GameOver = this.IsGameOver()
             };
         }
 
@@ -187,6 +188,11 @@ namespace Server.Model
             }
 
             this.Searchers = newSearcherList;
+        }
+
+        private bool IsGameOver()
+        {
+            return (this.FirstPlayer.Lives <= 0 || this.SecondPlayer.Lives <= 0);
         }
 
         private void RemoveOuterProjectiles()

@@ -11,8 +11,8 @@ namespace SquareGameObjects
     {
         public int PlayerOneLives { get; set; }
         public int PlayerTwoLives { get; set; }
-
         public int Score { get; set; }
+        public bool GameOver { get; set; }
 
         public List<Square> GameObjects
         {

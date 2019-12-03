@@ -12,6 +12,7 @@
         ResizeMode="NoResize">
     <Window.Resources>
         <converter:GameObjectTypeToColorConv x:Key="colorConv"/>
+        <converter:BoolToVisibilityConv x:Key="visibConv" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -21,7 +22,7 @@
         <TextBlock Grid.Row="0" Text="{Binding Path=Game.PlayerOneLives, StringFormat='Player 1 Lives: {0}'}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Foreground="Red" Margin="128,0,0,0" />
         <TextBlock Grid.Row="0" Text="{Binding Path=Game.Score, StringFormat='Score: {0}'}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="LightPink" />
         <TextBlock Grid.Row="0" Text="{Binding Path=Game.PlayerTwoLives, StringFormat='Player 2 Lives: {0}'}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16" Foreground="Green" Margin="0,0,128,0" />
-        <Canvas Name="MyCanvas" KeyDown="Canvas_KeyDown" KeyUp="MyCanvas_KeyUp" Focusable="True" Grid.Row="1" ClipToBounds="True">
+        <Canvas Visibility="{Binding Game.GameOver, Converter={StaticResource visibConv}}" Name="MyCanvas" KeyDown="Canvas_KeyDown" KeyUp="MyCanvas_KeyUp" Focusable="True" Grid.Row="1" ClipToBounds="True">
             <!--<Rectangle Fill="Red" Canvas.Left="{Binding Game.Square.X}" Canvas.Top="{Binding Game.Square.Y}" Width="{Binding Game.Square.Width}" Height="{Binding Game.Square.Height}" />
             <Rectangle Fill="Green" Canvas.Left="{Binding Game.SecondPlayerSquare.X}" Canvas.Top="{Binding Game.SecondPlayerSquare.Y}" Width="{Binding Game.SecondPlayerSquare.Width}" Height="{Binding Game.SecondPlayerSquare.Height}" />-->
             <!--<ItemsControl ItemsSource="{Binding Game.GameObjects}">
@@ -68,5 +69,8 @@
             </ItemsControl>
             <Rectangle Stroke="Black" StrokeThickness="2" Width="1086" Height="596" />
         </Canvas>
+        <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            Game Over Alder
+        </TextBlock>
     </Grid>
 </Window>

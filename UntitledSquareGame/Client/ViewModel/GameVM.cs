@@ -27,6 +27,7 @@ namespace Client.ViewModel
         private int playerOneLives;
         private int playerTwoLives;
         private int score;
+        private bool gameOver;
         private ObservableCollection<Square> gameObjects;
 
         public GameVM()
@@ -124,6 +125,19 @@ namespace Client.ViewModel
             set
             {
                 this.score = value;
+                this.FireOnPropertyChanged();
+            }
+        }
+
+        public bool GameOver
+        {
+            get
+            {
+                return this.gameOver;
+            }
+            set
+            {
+                this.gameOver = value;
                 this.FireOnPropertyChanged();
             }
         }
@@ -232,6 +246,7 @@ namespace Client.ViewModel
             this.PlayerOneLives = e.GameState.PlayerOneLives;
             this.PlayerTwoLives = e.GameState.PlayerTwoLives;
             this.Score = e.GameState.Score;
+            this.GameOver = e.GameState.GameOver;
         }
     }
 }

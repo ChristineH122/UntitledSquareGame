@@ -58,7 +58,7 @@ namespace Server.Model
                 var buffer = new byte[1024];
                 var bytes = stream.Read(buffer, 0, buffer.Length);
                 var message = Encoding.ASCII.GetString(buffer, 0, bytes);
-                this.HandlePlayerCommnad(this.Game.FirstPlayer, message);
+                this.HandlePlayerCommand(this.Game.FirstPlayer, message);
             }
         }
 
@@ -71,11 +71,11 @@ namespace Server.Model
                 var buffer = new byte[1024];
                 var bytes = stream.Read(buffer, 0, buffer.Length);
                 var message = Encoding.ASCII.GetString(buffer, 0, bytes);
-                this.HandlePlayerCommnad(this.Game.SecondPlayer, message);
+                this.HandlePlayerCommand(this.Game.SecondPlayer, message);
             }
         }
 
-        public void HandlePlayerCommnad(Player player, string message)
+        public void HandlePlayerCommand(Player player, string message)
         {
             var splitMessage = message.Split(':');
             var command = splitMessage[0];
