@@ -46,25 +46,33 @@ namespace Client.Model
             var message = Encoding.Default.GetBytes("Test");
             stream.Write(message, 0, message.Length);
             stream.Flush();
-            // stream.Close();
         }
 
-        public Task StartListeningForGameStateAsync()
+        public async Task StartListeningForGameStateAsync()
         {
-            var task = Task.Factory.StartNew(() => {
-                this.listenForGameState = true;
+                await Task.Factory.StartNew(() => {
+                    try
+                    {
+                        using (this.client)
+                        {
+                            this.listenForGameState = true;
 
-                var stream = client.GetStream();
+                            var stream = client.GetStream();
 
-                while (this.listenForGameState)
-                {
-                    var formatter = new BinaryFormatter();
-                    var gameState = formatter.Deserialize(stream) as GameState;
-                    this.FireGameStateReceivedReceived(new GameStateReceivedEventArgs(gameState));
-                }
-            });
+                            while (this.listenForGameState)
+                            {
+                                var formatter = new BinaryFormatter();
+                                var gameState = formatter.Deserialize(stream) as GameState;
+                                this.FireGameStateReceivedReceived(new GameStateReceivedEventArgs(gameState));
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
 
-            return task;
+                });
         }
 
         public Task StopListeningForGameStateAsync()

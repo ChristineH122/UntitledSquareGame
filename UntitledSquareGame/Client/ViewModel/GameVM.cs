@@ -5,17 +5,21 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Client.ViewModel
 {
     public class GameVM : INotifyPropertyChanged
 
     {
-        private const double MOVEMENT_SPEED = 3; 
+        private const double MOVEMENT_SPEED = 3;
+        private const string IP_ADDRESS = "127.0.0.1";
+        private const int PORT = 5050;
 
         private bool moveUp;
         private bool moveDown;
@@ -28,25 +32,22 @@ namespace Client.ViewModel
         private int playerTwoLives;
         private int score;
         private bool gameOver;
+        private string gameOverMessage;
         private bool hideGameOverMessage;
         private ObservableCollection<Square> gameObjects;
 
         public GameVM()
         {
             this.GameObjects = new ObservableCollection<Square>();
-            this.ConHandler = new ConnectionHandler("127.0.0.1", 5050);
-            this.ConHandler.StartListeningForGameStateAsync();
-            this.ConHandler.GameStateReceived += ConHandler_GameStateReceived;
             this.Square = new SquareVM(new Square(500, 250, 40, 40, GameObjectType.Player1));
             this.SecondPlayerSquare = new SquareVM(new Square(500, 350, 40, 40, GameObjectType.Player2));
-            this.HideGameOverMessage = true;
-            //this.connectionHandler = new ConnectionHandler("192.168.178.20", 5050);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ConnectionHandler ConHandler
         {
+            set;
             get;
         }
 
@@ -144,6 +145,19 @@ namespace Client.ViewModel
             }
         }
 
+        public string GameOverMessage
+        {
+            get
+            {
+                return this.gameOverMessage;
+            }
+            set
+            {
+                this.gameOverMessage = value;
+                this.FireOnPropertyChanged();
+            }
+        }
+
         public bool HideGameOverMessage
         {
             get
@@ -154,6 +168,30 @@ namespace Client.ViewModel
             {
                 this.hideGameOverMessage = value;
                 this.FireOnPropertyChanged();
+            }
+        }
+
+        public async Task Start()
+        {
+            while (true)
+            {
+                try
+                {
+                    this.GameOverMessage = "Game over alder";
+                    this.ConHandler = new ConnectionHandler(IP_ADDRESS, PORT);
+                    this.ConHandler.GameStateReceived += ConHandler_GameStateReceived;
+                    this.HideGameOverMessage = true;
+                    await this.ConHandler.StartListeningForGameStateAsync();
+                }
+                catch (IOException e)
+                {
+                    this.GameOverMessage = e.Message;
+                    this.GameOver = true;
+                }
+                catch (Exception e)
+                {
+
+                }
             }
         }
 
@@ -224,29 +262,6 @@ namespace Client.ViewModel
             }
         }
 
-        public void Move()
-        {
-            //if (this.moveUp)
-            //{
-            //    this.Square.Y -= MOVEMENT_SPEED;
-            //}
-
-            //if (this.moveDown)
-            //{
-            //    this.Square.Y += MOVEMENT_SPEED;
-            //}
-
-            //if (this.moveLeft)
-            //{
-            //    this.Square.X -= MOVEMENT_SPEED;
-            //}
-
-            //if (this.moveRight)
-            //{
-            //    this.Square.X += MOVEMENT_SPEED;
-            //}
-        }
-
         protected virtual void FireOnPropertyChanged([CallerMemberName] string name = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
@@ -254,15 +269,15 @@ namespace Client.ViewModel
 
         private void ConHandler_GameStateReceived(object sender, EventArguments.GameStateReceivedEventArgs e)
         {
-            /*
-             * TODO: Score
-             * */
             this.GameObjects = new ObservableCollection<Square>(e.GameState.GameObjects);
             this.PlayerOneLives = e.GameState.PlayerOneLives;
             this.PlayerTwoLives = e.GameState.PlayerTwoLives;
             this.Score = e.GameState.Score;
             this.GameOver = e.GameState.GameOver;
             this.HideGameOverMessage = !e.GameState.GameOver;
+
+            if (this.GameOver)
+                this.ConHandler.StopListeningForGameStateAsync();
         }
     }
 }

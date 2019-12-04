@@ -30,11 +30,7 @@ namespace Client
             this.game = new GameVM();
             this.DataContext = this;
             InitializeComponent();
-
-            DispatcherTimer dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Tick += Timer_Tick;
-            dispatcherTimer.Interval = TimeSpan.FromMilliseconds(1);
-            dispatcherTimer.Start();
+            this.Game.Start();
         }
 
         public GameVM Game
@@ -117,11 +113,6 @@ namespace Client
             {
                 this.game.ReleaseDirection(Direction.Right);
             }
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            this.game.Move();
         }
     }
 }
