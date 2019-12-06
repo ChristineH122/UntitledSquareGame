@@ -190,7 +190,7 @@ namespace Client.ViewModel
                 }
                 catch (Exception e)
                 {
-
+                    var test = "hello";
                 }
             }
         }

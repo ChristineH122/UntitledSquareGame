@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1100"
         FocusManager.FocusedElement="{Binding ElementName=MyCanvas}"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize" Loaded="Window_Loaded">
     <Window.Resources>
         <converter:GameObjectTypeToColorConv x:Key="colorConv"/>
         <converter:BoolToVisibilityConv x:Key="visibConv" />

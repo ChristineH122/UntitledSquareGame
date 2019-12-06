@@ -30,7 +30,6 @@ namespace Client
             this.game = new GameVM();
             this.DataContext = this;
             InitializeComponent();
-            this.Game.Start();
         }
 
         public GameVM Game
@@ -112,6 +111,18 @@ namespace Client
             if (e.Key == Key.D)
             {
                 this.game.ReleaseDirection(Direction.Right);
+            }
+        }
+
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await this.Game.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }

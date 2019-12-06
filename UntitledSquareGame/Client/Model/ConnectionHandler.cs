@@ -50,29 +50,38 @@ namespace Client.Model
 
         public async Task StartListeningForGameStateAsync()
         {
-                await Task.Factory.StartNew(() => {
-                    try
+            try
+            {
+                await Task.Factory.StartNew(this.StartListeningForGameState);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public void StartListeningForGameState()
+        {
+            try
+            {
+                using (this.client)
+                {
+                    this.listenForGameState = true;
+
+                    var stream = client.GetStream();
+
+                    while (this.listenForGameState)
                     {
-                        using (this.client)
-                        {
-                            this.listenForGameState = true;
-
-                            var stream = client.GetStream();
-
-                            while (this.listenForGameState)
-                            {
-                                var formatter = new BinaryFormatter();
-                                var gameState = formatter.Deserialize(stream) as GameState;
-                                this.FireGameStateReceivedReceived(new GameStateReceivedEventArgs(gameState));
-                            }
-                        }
+                        var formatter = new BinaryFormatter();
+                        var gameState = formatter.Deserialize(stream) as GameState;
+                        this.FireGameStateReceivedReceived(new GameStateReceivedEventArgs(gameState));
                     }
-                    catch (Exception e)
-                    {
-                        throw e;
-                    }
-
-                });
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public Task StopListeningForGameStateAsync()
