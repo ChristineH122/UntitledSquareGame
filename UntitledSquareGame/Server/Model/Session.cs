@@ -12,6 +12,11 @@ namespace Server.Model
 {
     public class Session
     {
+        private Task listenFirstPlayer;
+        private Task listenSecondPlayer;
+        private Task playGame;
+
+        // TODO delete
         public Session(User firstUser)
         {
             this.Game = new Game(this.SendGameStateToClients);
@@ -29,9 +34,7 @@ namespace Server.Model
             this.FirstUser = firstUser;
             this.SecondUser = secondUser;
 
-            var task = Task.Factory.StartNew(this.ListenFirstPlayerCommand);
-            var task2 = Task.Factory.StartNew(this.ListenSecondPlayerCommand);
-            this.Game.Start();
+            
         }
 
         public User FirstUser
@@ -49,16 +52,38 @@ namespace Server.Model
             get;
         }
 
+        public async void StartAsync()
+        {
+            
+            this.listenFirstPlayer = Task.Factory.StartNew(this.ListenFirstPlayerCommand);
+            this.listenSecondPlayer = Task.Factory.StartNew(this.ListenSecondPlayerCommand);
+            this.playGame = Task.Factory.StartNew(this.Game.Start);
+        }
+
+        public void Stop()
+        {
+            this.listenFirstPlayer.Dispose();
+            this.listenSecondPlayer.Dispose();
+            this.playGame.Dispose();
+        }
+
         public void ListenFirstPlayerCommand()
         {
             var stream = this.FirstUser.Client.GetStream();
 
-            while (true)
+            try
             {
-                var buffer = new byte[1024];
-                var bytes = stream.Read(buffer, 0, buffer.Length);
-                var message = Encoding.ASCII.GetString(buffer, 0, bytes);
-                this.HandlePlayerCommand(this.Game.FirstPlayer, message);
+                while (true)
+                {
+                    var buffer = new byte[1024];
+                    var bytes = stream.Read(buffer, 0, buffer.Length);
+                    var message = Encoding.ASCII.GetString(buffer, 0, bytes);
+                    this.HandlePlayerCommand(this.Game.FirstPlayer, message);
+                }
+            }
+            catch(IOException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -66,12 +91,19 @@ namespace Server.Model
         {
             var stream = this.SecondUser.Client.GetStream();
 
-            while (true)
+            try
             {
-                var buffer = new byte[1024];
-                var bytes = stream.Read(buffer, 0, buffer.Length);
-                var message = Encoding.ASCII.GetString(buffer, 0, bytes);
-                this.HandlePlayerCommand(this.Game.SecondPlayer, message);
+                while (true)
+                {
+                    var buffer = new byte[1024];
+                    var bytes = stream.Read(buffer, 0, buffer.Length);
+                    var message = Encoding.ASCII.GetString(buffer, 0, bytes);
+                    this.HandlePlayerCommand(this.Game.SecondPlayer, message);
+                }
+            }
+            catch(IOException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -152,12 +184,12 @@ namespace Server.Model
         {
             var data = this.SerializeGameStateToByteArray(state);
             var firstUserStream = this.FirstUser.Client.GetStream();
-            //var secondUserStream = this.SecondUser.Client.GetStream();
+            var secondUserStream = this.SecondUser.Client.GetStream();
         
             firstUserStream.Write(data, 0, data.Length);
-            //secondUserStream.Write(data, 0, data.Length);
+            secondUserStream.Write(data, 0, data.Length);
             firstUserStream.Flush();
-            //secondUserStream.Flush();
+            secondUserStream.Flush();
         }
 
         private byte[] SerializeGameStateToByteArray(GameState gameState)
